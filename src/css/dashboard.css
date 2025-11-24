@@ -218,8 +218,17 @@ body {
     border-color: var(--primary-color);
 }
 
+.questions-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-bottom: 0;
+}
+
 .question-list {
-    height: calc(100vh - 430px);
+    height: auto;
+    flex: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
