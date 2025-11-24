@@ -196,52 +196,6 @@ Para cada área de análisis se identificó:
 
 ---
 
-## 📁 ARCHIVOS ACTUALIZADOS
-
-### 1. data_insights.js
-**Cambios principales:**
-- ✅ Agregadas todas las conversiones cuantitativas
-- ✅ Ampliadas perspectivas con datos numéricos precisos
-- ✅ Agregados porcentajes y frecuencias
-- ✅ Expandidas secciones de triangulación con evidencia cuantitativa
-- ✅ Agregadas distribuciones de ratings
-- ✅ Identificados participantes específicos para cada variable
-- ✅ Expandidos hallazgos críticos con datos de los 3 datasets
-- ✅ Actualizados metadatos con metodología de triangulación
-- ✅ Agregado sistema de estadísticas globales (stats)
-
-**Líneas de código:** 424 → Expandido significativamente  
-**Versión:** 2.0  
-**Integridad:** ✅ Verificada contra datasets originales
-
-### 2. REPORTE_TRIANGULACION.md
-**Nuevo archivo creado** con:
-- ✅ Metodología completa de triangulación
-- ✅ Todas las tablas cuantitativas
-- ✅ Sección de convergencias, divergencias y puntos críticos
-- ✅ Análisis temático por casos clínicos
-- ✅ Hallazgos cuantitativos críticos
-- ✅ Recomendaciones priorizadas basadas en evidencia
-- ✅ Conclusiones y validación de integridad
-
-**Extensión:** 9 secciones, documento completo de análisis
-
-### 3. insights-loader.js
-**Estado:** ✅ Verificado, funcionando correctamente
-- Compatible con data_insights.js v2.0
-- Métodos de acceso a datos funcionando
-- Sistema de caché operativo
-
-### 4. views/insights.html
-**Estado:** ✅ Verificado
-- Carga correctamente data_insights.js
-- Usa insights-loader.js para acceso a datos
-- Renderiza correctamente las 6 áreas de análisis transversal
-- Tabs funcionando correctamente
-- Sistema de exportación operativo
-
----
-
 ## 🎯 COBERTURA DEL ANÁLISIS
 
 ### Áreas Transversales Analizadas (6/6)
@@ -359,8 +313,7 @@ Para cada área se documenta:
 
 ### Largo Plazo
 7. ⏳ **Implementación de recomendaciones críticas** para siguiente ciclo
-8. ⏳ **Sistema de seguimiento** de mejoras implementadas
-9. ⏳ **Comparación longitudinal** con próximas generaciones
+8. ⏳ **Comparación longitudinal** con próximas generaciones
 
 ---
 

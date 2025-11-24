@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes y Documentación - Análisis Integrador VII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/data/reports_data.js"></script>
+    <style>
+        .markdown-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3 {
+            color: var(--text-primary);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .markdown-content h1 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .markdown-content h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3rem;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background-color: var(--bg-primary);
+            font-weight: 600;
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            margin: 1rem 0;
+            padding-left: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .report-selector {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .report-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .report-btn:hover {
+            background: var(--bg-primary);
+        }
+
+        .report-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VIII e Investigación Cualitativa</div>
+            <ul class="nav-links">
+                <li><a href="../../landing/index.html">Inicio</a></li>
+                <li><a href="../../landing/introduccion.html">Introducción</a></li>
+                <li><a href="../../landing/objetivos.html">Objetivos</a></li>
+                <li><a href="../../landing/metodologia.html">Metodología</a></li>
+                <li><a href="../../landing/analisis.html">Análisis</a></li>
+                <li><a href="../index.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="logo-text">
+                    <h1>Análisis Integrador VII</h1>
+                    <span>Evaluación de Casos Clínicos</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>VISTA PRINCIPAL</h3>
+                <a href="../index.html" class="nav-item">
+                    <i class="fa-solid fa-border-all"></i> Dashboard
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>ANÁLISIS CONSOLIDADO</h3>
+                <a href="insights.html" class="nav-item">
+                    <i class="fa-solid fa-lightbulb"></i> Insights Consolidados
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>DOCUMENTACIÓN</h3>
+                <a href="#" class="nav-item active">
+                    <i class="fa-solid fa-file-lines"></i> Reportes Detallados
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="status-badge">
+                    <span class="dot"></span> Documentación
+                </div>
+            </header>
+
+            <div class="content-scroll">
+                <div class="report-selector">
+                    <button class="report-btn active" onclick="loadReport('triangulacion', this)">
+                        <i class="fa-solid fa-file-contract"></i> Reporte de Triangulación
+                    </button>
+                    <button class="report-btn" onclick="loadReport('insights', this)">
+                        <i class="fa-solid fa-file-pen"></i> Resumen Actualización
+                    </button>
+                </div>
+
+                <div id="markdown-container" class="markdown-content">
+                    <!-- Content will be loaded here -->
+                </div>
+
+                <div class="report-selector">
+                    <button class="report-btn active" onclick="loadReport('triangulacion', this)">
+                        <i class="fa-solid fa-file-contract"></i> Reporte de Triangulación
+                    </button>
+                    <button class="report-btn" onclick="loadReport('insights', this)">
+                        <i class="fa-solid fa-file-pen"></i> Resumen Actualización
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load default report
+            loadReport('triangulacion', document.querySelector('.report-btn.active'));
+        });
+
+        function loadReport(key, btn) {
+            // Update buttons
+            document.querySelectorAll('.report-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            // Load content
+            const content = reportsData[key];
+            const container = document.getElementById('markdown-container');
+
+            if (content) {
+                container.innerHTML = marked.parse(content);
+            } else {
+                container.innerHTML = '<p class="error-message">No se encontró el reporte.</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>

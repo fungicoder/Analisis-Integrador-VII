@@ -4,25 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insights Consolidados - Integrador VII</title>
+    <title>Insights Consolidados - Integrador VIII</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../../js/dashboard/analysis.js"></script>
     <script src="../../js/data/data_insights.js"></script>
     <script src="../../js/dashboard/insights-loader.js"></script>
     <style>
+        /* Force scrolling to work */
+        html {
+            overflow-y: scroll !important;
+        }
+
+        body {
+            overflow-y: auto !important;
+            height: auto !important;
+            min-height: 100vh;
+        }
+
         .insights-container {
             padding: 2rem;
+            padding-top: 100px;
             max-width: 1400px;
             margin: 0 auto;
+            padding-bottom: 4rem;
         }
 
         .insights-header {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
         }
 
         .insights-header h1 {
@@ -36,39 +48,25 @@
             font-size: 1.1rem;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-top: 1rem;
         }
 
-        .stat-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .back-btn:hover {
+            background: var(--primary-hover);
+            transform: translateX(-2px);
         }
 
         .section {
@@ -92,61 +90,59 @@
             color: var(--primary-color);
         }
 
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border-color);
-            flex-wrap: wrap;
         }
 
-        .tab {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
+        .stat-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
         }
 
-        .tab:hover {
-            color: var(--text-primary);
-            background: rgba(99, 102, 241, 0.05);
-        }
-
-        .tab.active {
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
+            margin-bottom: 0.5rem;
         }
 
-        .tab-content {
-            display: none;
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s;
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            color: #ef4444;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .content-grid {
+            display: grid;
+            gap: 1.5rem;
         }
 
         .insight-card {
             background: var(--bg-primary);
             border-left: 4px solid var(--primary-color);
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
             border-radius: 8px;
         }
 
@@ -166,6 +162,7 @@
             padding-left: 1.5rem;
             position: relative;
             color: var(--text-secondary);
+            line-height: 1.6;
         }
 
         .insight-list li:before {
@@ -174,109 +171,6 @@
             left: 0;
             color: var(--primary-color);
         }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-right: 0.5rem;
-        }
-
-        .badge-convergence {
-            background: rgba(34, 197, 94, 0.1);
-            color: rgb(34, 197, 94);
-        }
-
-        .badge-divergence {
-            background: rgba(239, 68, 68, 0.1);
-            color: rgb(239, 68, 68);
-        }
-
-        .badge-critical {
-            background: rgba(249, 115, 22, 0.1);
-            color: rgb(249, 115, 22);
-        }
-
-        .quote-box {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
-            border-left: 4px solid var(--primary-color);
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            font-style: italic;
-        }
-
-        .quote-box .quote-text {
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
-        .quote-box .quote-source {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-style: normal;
-        }
-
-        .recommendations-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .recommendation-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .recommendation-card h4 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .back-btn:hover {
-            background: var(--primary-hover);
-            transform: translateX(-2px);
-        }
-
-        .export-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            cursor: pointer;
-            margin-left: 1rem;
-        }
-
-        .export-btn:hover {
-            background: var(--primary-color);
-            color: white;
-        }
     </style>
 </head>
 
@@ -284,9 +178,9 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-content">
-            <div class="nav-logo">Integrador VII</div>
+            <div class="nav-logo">Integrador VIII e Investigación Cualitativa</div>
             <ul class="nav-links">
-                <li><a href="../../landing/presentacion.html">Inicio</a></li>
+                <li><a href="../../landing/index.html">Inicio</a></li>
                 <li><a href="../../landing/introduccion.html">Introducción</a></li>
                 <li><a href="../../landing/objetivos.html">Objetivos</a></li>
                 <li><a href="../../landing/metodologia.html">Metodología</a></li>
@@ -295,551 +189,408 @@
             </ul>
         </div>
     </nav>
+
     <div class="insights-container">
         <!-- Header -->
         <div class="insights-header">
             <h1><i class="fa-solid fa-lightbulb"></i> Insights Consolidados</h1>
             <p>Análisis triangulado de las perspectivas de Estudiantes, Co-Evaluadores y Docentes</p>
-            <div style="margin-top: 1rem;">
-                <a href="../index.html" class="back-btn">
-                    <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
-                </a>
-                <button class="export-btn" onclick="exportInsights()">
-                    <i class="fa-solid fa-download"></i> Exportar Insights
-                </button>
-            </div>
+            <a href="../index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+            </a>
         </div>
 
-        <!-- Resumen Ejecutivo -->
-        <div class="section">
-            <h2 class="section-title">
-                <i class="fa-solid fa-chart-line"></i>
-                Resumen Ejecutivo
-            </h2>
-            <div class="stats-grid" id="stats-grid">
-                <!-- Stats will be populated here -->
-            </div>
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary-color);"></i>
+            <p style="margin-top: 1rem;">Cargando insights...</p>
         </div>
 
-        <!-- Análisis Transversal -->
-        <div class="section">
-            <h2 class="section-title">
-                <i class="fa-solid fa-diagram-project"></i>
-                Análisis Transversal
-            </h2>
-            <div class="tabs">
-                <button class="tab active" data-tab="rapport">Rapport y Alianza</button>
-                <button class="tab" data-tab="tests">Selección de Pruebas</button>
-                <button class="tab" data-tab="integration">Integración de Resultados</button>
-                <button class="tab" data-tab="copresence">Co-presencia</button>
-                <button class="tab" data-tab="supervision">Supervisión Docente</button>
-                <button class="tab" data-tab="context">Contexto Cultural</button>
-            </div>
-            <div id="tabs-content">
-                <!-- Tab content will be populated here -->
-            </div>
+        <!-- Error State -->
+        <div id="error" class="error-message" style="display: none;">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> Error al cargar datos</h2>
+            <p id="error-message"></p>
         </div>
 
-        <!-- Temas Clínicos -->
-        <div class="section">
-            <h2 class="section-title">
-                <i class="fa-solid fa-notes-medical"></i>
-                Temas Clínicos Principales
-            </h2>
-            <div id="clinical-themes">
-                <!-- Themes will be populated here -->
+        <!-- Content Container -->
+        <div id="content" style="display: none;">
+            <!-- Stats -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Resumen Ejecutivo
+                </h2>
+                <div class="stats-grid" id="stats-grid"></div>
             </div>
-        </div>
 
-        <!-- Hallazgos Críticos -->
-        <div class="section">
-            <h2 class="section-title">
-                <i class="fa-solid fa-magnifying-glass-chart"></i>
-                Hallazgos Críticos
-            </h2>
-            <div class="tabs">
-                <button class="tab active" data-tab-critical="strengths">Fortalezas</button>
-                <button class="tab" data-tab-critical="weaknesses">Debilidades</button>
-                <button class="tab" data-tab-critical="external">Factores Externos</button>
-                <button class="tab" data-tab-critical="identity">Identidad Profesional</button>
-            </div>
-            <div id="critical-content">
-                <!-- Critical findings will be populated here -->
-            </div>
-        </div>
+            <!-- Main Insights -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    Principales Hallazgos
+                </h2>
+                <div class="content-grid" id="insights-grid"></div>
 
-        <!-- Recomendaciones -->
-        <div class="section">
-            <h2 class="section-title">
-                <i class="fa-solid fa-list-check"></i>
-                Recomendaciones
-            </h2>
-            <div class="tabs">
-                <button class="tab active" data-tab-rec="students">Para Estudiantes</button>
-                <button class="tab" data-tab-rec="professors">Para Docentes</button>
-                <button class="tab" data-tab-rec="institution">Para la Institución</button>
             </div>
-            <div id="recommendations-content">
-                <!-- Recommendations will be populated here -->
-            </div>
+            <a href="../index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+            </a>
         </div>
     </div>
 
     <script>
-        // Inicializar vista de insights
+        // Wait for DOM to be ready
         document.addEventListener('DOMContentLoaded', function () {
-            loadStats();
-            loadTransversalAnalysis();
-            loadClinicalThemes();
-            loadCriticalFindings();
-            loadRecommendations();
-            setupTabs();
+            const loadingEl = document.getElementById('loading');
+            const errorEl = document.getElementById('error');
+            const errorMessageEl = document.getElementById('error-message');
+            const contentEl = document.getElementById('content');
+
+            try {
+                // Check if dataInsights is available
+                if (typeof dataInsights === 'undefined') {
+                    throw new Error('Los datos de insights no están disponibles. Verifica que data_insights.js se haya cargado correctamente.');
+                }
+
+                // Initialize InsightsLoader
+                if (typeof InsightsLoader === 'undefined') {
+                    throw new Error('InsightsLoader no está disponible. Verifica que insights-loader.js se haya cargado correctamente.');
+                }
+
+                const initialized = InsightsLoader.init();
+                if (!initialized) {
+                    throw new Error('No se pudo inicializar InsightsLoader.');
+                }
+
+                console.log('✅ Insights cargados correctamente');
+
+                // Load data
+                loadStats();
+                loadInsights();
+
+                // Hide loading, show content
+                loadingEl.style.display = 'none';
+                contentEl.style.display = 'block';
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                errorMessageEl.textContent = error.message;
+            }
         });
 
         function loadStats() {
-            const stats = InsightsLoader.getStats();
-            const metadata = InsightsLoader.getMetadata();
+            try {
+                const stats = InsightsLoader.getStats();
+                const metadata = InsightsLoader.getMetadata();
 
-            if (!stats || !metadata) return;
+                if (!stats || !metadata) {
+                    console.warn('No hay estadísticas disponibles');
+                    return;
+                }
 
-            const statsGrid = document.getElementById('stats-grid');
-            statsGrid.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-value">${metadata.totalParticipants.students}</div>
-                    <div class="stat-label">Estudiantes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${metadata.totalParticipants.coEvaluators}</div>
-                    <div class="stat-label">Co-Evaluadores</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${metadata.totalParticipants.professors}</div>
-                    <div class="stat-label">Docentes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${stats.totalAreas}</div>
-                    <div class="stat-label">Áreas de Análisis</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${stats.totalThemes}</div>
-                    <div class="stat-label">Temas Clínicos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${stats.totalPatterns}</div>
-                    <div class="stat-label">Patrones Identificados</div>
-                </div>
-            `;
+                const statsGrid = document.getElementById('stats-grid');
+                statsGrid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${metadata.totalParticipants.students}</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${metadata.totalParticipants.coEvaluators}</div>
+                        <div class="stat-label">Co-Evaluadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${metadata.totalParticipants.professors}</div>
+                        <div class="stat-label">Docentes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.totalAreas}</div>
+                        <div class="stat-label">Áreas de Análisis</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.totalThemes}</div>
+                        <div class="stat-label">Temas Clínicos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.totalPatterns}</div>
+                        <div class="stat-label">Patrones Identificados</div>
+                    </div>
+                `;
+
+                console.log('✅ Estadísticas cargadas');
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
         }
 
-        function loadTransversalAnalysis() {
-            // Cargar cada área de análisis transversal
-            const areas = {
-                'rapport': InsightsLoader.getInsightByArea('rapport'),
-                'tests': InsightsLoader.getInsightByArea('testSelection'),
-                'integration': InsightsLoader.getInsightByArea('resultIntegration'),
-                'copresence': InsightsLoader.getInsightByArea('coPresence'),
-                'supervision': InsightsLoader.getInsightByArea('supervision'),
-                'context': InsightsLoader.getInsightByArea('contextualAdaptation')
-            };
+        function loadInsights() {
+            try {
+                const insights = InsightsLoader.getAll();
+                if (!insights) {
+                    console.warn('No hay insights disponibles');
+                    return;
+                }
 
-            const container = document.getElementById('tabs-content');
-            let html = '';
+                const grid = document.getElementById('insights-grid');
+                let html = '';
 
-            // 1. Rapport
-            html += `<div class="tab-content active" data-content="rapport">`;
-            if (areas.rapport) {
-                html += `
-                    <div class="insight-card">
-                        <h3>Perspectiva de Estudiantes</h3>
-                        <p><strong>Técnicas Más Usadas:</strong></p>
-                        <ul class="insight-list">
-                            ${areas.rapport.studentsPerspective.techniques.map(t =>
-                    `<li>${t.technique} (${t.percentage.toFixed(1)}%)</li>`
-                ).join('')}
-                        </ul>
-                        <p><strong>Desafíos:</strong></p>
-                        <ul class="insight-list">
-                            ${areas.rapport.studentsPerspective.challenges.map(c => `<li>${c}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Perspectiva de Co-Evaluadores</h3>
-                        <p><strong>Rating:</strong> ${areas.rapport.coEvaluatorsPerspective.rating}/5</p>
-                        <p><strong>Impacto:</strong> ${areas.rapport.coEvaluatorsPerspective.impact}</p>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Perspectiva de Docentes</h3>
-                        <p><strong>Rating:</strong> ${areas.rapport.professorsPerspective.rating}/5</p>
-                        <ul class="insight-list">
-                            ${areas.rapport.professorsPerspective.observations.map(o => `<li>${o}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Triangulación</h3>
-                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.rapport.triangulation.convergence}</p>
-                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.rapport.triangulation.divergence}</p>
-                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.rapport.triangulation.criticalPoint}</p>
-                    </div>
-                `;
-            }
-            html += `</div>`;
+                // === CROSS-DATASET INSIGHTS (6 ÁREAS) ===
+                if (insights.crossDatasetInsights) {
+                    const areas = [
+                        { key: 'rapport', icon: 'fa-handshake', title: 'Rapport y Alianza Terapéutica', color: '#3b82f6' },
+                        { key: 'testSelection', icon: 'fa-clipboard-check', title: 'Selección y Aplicación de Pruebas', color: '#8b5cf6' },
+                        { key: 'resultIntegration', icon: 'fa-puzzle-piece', title: 'Integración y Análisis de Resultados', color: '#ec4899' },
+                        { key: 'coPresence', icon: 'fa-users', title: 'Co-Presencia (Modalidad de Evaluación)', color: '#f59e0b' },
+                        { key: 'supervision', icon: 'fa-chalkboard-teacher', title: 'Supervisión y Acompañamiento Docente', color: '#06b6d4' },
+                        { key: 'contextualAdaptation', icon: 'fa-globe', title: 'Contexto y Adaptación Cultural', color: '#10b981' }
+                    ];
 
-            // 2. Tests (Selección de Pruebas)
-            html += `<div class="tab-content" data-content="tests">`;
-            if (areas.tests) {
-                html += `
-                    <div class="insight-card">
-                        <h3>Pruebas Más Utilizadas</h3>
-                        <ul class="insight-list">
-                            ${areas.tests.mostUsedTests.slice(0, 5).map(t => `<li><strong>${t.test}</strong>: ${t.context}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Factores de Modificación</h3>
-                        <ul class="insight-list">
-                            ${areas.tests.modificationFactors.map(f => `<li>${f.factor} (Impacto: ${f.impact})</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Triangulación</h3>
-                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.tests.triangulation.convergence}</p>
-                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.tests.triangulation.divergence}</p>
-                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.tests.triangulation.criticalPoint}</p>
-                    </div>
-                `;
-            }
-            html += `</div>`;
+                    areas.forEach(area => {
+                        const data = insights.crossDatasetInsights[area.key];
+                        if (data) {
+                            html += `
+                                <div class="insight-card" style="border-left-color: ${area.color};">
+                                    <h3><i class="fa-solid ${area.icon}"></i> ${area.title}</h3>
+                                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">${data.description || ''}</p>
+                                    ${data.triangulation ? `
+                                        <div style="background: var(--card-bg); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                                            <strong style="color: var(--primary-color);">Triangulación:</strong>
+                                            <ul class="insight-list" style="margin-top: 0.5rem;">
+                                                <li><strong>Convergencia:</strong> ${data.triangulation.convergence}</li>
+                                                <li><strong>Divergencia:</strong> ${data.triangulation.divergence}</li>
+                                                <li><strong>Punto Crítico:</strong> ${data.triangulation.criticalPoint}</li>
+                                            </ul>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `;
+                        }
+                    });
+                }
 
-            // 3. Integration (Integración de Resultados)
-            html += `<div class="tab-content" data-content="integration">`;
-            if (areas.integration) {
-                html += `
-                    <div class="insight-card">
-                        <h3>Principales Desafíos</h3>
-                        <ul class="insight-list">
-                            ${areas.integration.mainChallenges.map(c =>
-                    `<li><strong>${c.challenge}</strong> (${c.perspective}): ${c.detail || ''}</li>`
-                ).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Competencias Necesarias (Estudiantes)</h3>
-                        <ul class="insight-list">
-                            ${areas.integration.studentCompetencies.gaps.map(g => `<li>${g}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Triangulación</h3>
-                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.integration.triangulation.convergence}</p>
-                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.integration.triangulation.divergence}</p>
-                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.integration.triangulation.criticalPoint}</p>
-                    </div>
-                `;
-            }
-            html += `</div>`;
+                // === TEMAS CLÍNICOS ===
+                const themes = InsightsLoader.getClinicalThemes();
+                if (themes && themes.length > 0) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #ef4444;">
+                            <h3><i class="fa-solid fa-notes-medical"></i> Temas Clínicos Principales</h3>
+                           <ul class="insight-list">
+                                ${themes.map(theme => `
+                                    <li>
+                                        <strong>${theme.theme}</strong> - Prevalencia: ${theme.prevalence} 
+                                        (${theme.cases || 0} casos, ${theme.percentage || 0}%)
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
 
-            // 4. Co-presence (Co-presencia)
-            html += `<div class="tab-content" data-content="copresence">`;
-            if (areas.copresence) {
-                html += `
-                    <div class="insight-card">
-                        <h3>Impacto Percibido</h3>
-                        <p><strong>Estudiantes:</strong> ${areas.copresence.impactRatings.students.average.toFixed(2)}/5 - ${areas.copresence.impactRatings.students.interpretation}</p>
-                        <p><strong>Co-Evaluadores:</strong> ${areas.copresence.impactRatings.coEvaluators.average}/5 - ${areas.copresence.impactRatings.coEvaluators.interpretation}</p>
-                        <p><strong>Docentes:</strong> ${areas.copresence.impactRatings.professors.average}/5 - ${areas.copresence.impactRatings.professors.interpretation}</p>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Ventajas vs Desventajas</h3>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div>
-                                <strong>Ventajas:</strong>
-                                <ul class="insight-list">
-                                    ${areas.copresence.advantages.slice(0, 3).map(a => `<li>${a}</li>`).join('')}
-                                </ul>
+                // === PATRONES RECURRENTES ===
+                const patterns = InsightsLoader.getPatterns();
+                if (patterns && patterns.length > 0) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #f59e0b;">
+                            <h3><i class="fa-solid fa-chart-line"></i> Patrones Recurrentes Identificados</h3>
+                            <ul class="insight-list">
+                                ${patterns.map(pattern => `
+                                    <li>
+                                        <strong>${pattern.pattern}</strong><br>
+                                        <span style="margin-left: 1.5rem; font-size: 0.9em; color: var(--text-secondary);">
+                                            ${pattern.description} - Frecuencia: ${pattern.frequency}
+                                        </span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // === FORTALEZAS ===
+                const findings = InsightsLoader.getCriticalFindings();
+                if (findings && findings.strengths) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #10b981;">
+                            <h3><i class="fa-solid fa-star"></i> Fortalezas Identificadas</h3>
+                            <ul class="insight-list">
+                                ${findings.strengths.map(s => `
+                                    <li>
+                                        <strong>${s.area}:</strong> ${s.description}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // === DEBILIDADES ===
+                if (findings && findings.weaknesses) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #ef4444;">
+                            <h3><i class="fa-solid fa-triangle-exclamation"></i> Áreas de Mejora</h3>
+                            <ul class="insight-list">
+                                ${findings.weaknesses.map(w => `
+                                    <li>
+                                        <strong>${w.area}</strong> - Severidad: ${w.severity}<br>
+                                        <span style="margin-left: 1.5rem; font-size: 0.9em; color: var(--text-secondary);">
+                                            ${w.description}
+                                        </span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // === FACTORES EXTERNOS ===
+                const externalFactors = InsightsLoader.getExternalFactors();
+                if (externalFactors && externalFactors.length > 0) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #8b5cf6;">
+                            <h3><i class="fa-solid fa-exclamation-circle"></i> Factores Externos</h3>
+                            <ul class="insight-list">
+                                ${externalFactors.map(factor => `
+                                    <li>
+                                        <strong>${factor.factor}</strong><br>
+                                        <span style="margin-left: 1.5rem; font-size: 0.9em; color: var(--text-secondary);">
+                                            Impacto: ${factor.impact}
+                                        </span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // === IDENTIDAD PROFESIONAL ===
+                const profIdentity = InsightsLoader.getProfessionalIdentity();
+                if (profIdentity && profIdentity.positiveChanges) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #06b6d4;">
+                            <h3><i class="fa-solid fa-user-graduate"></i> Evolución de Identidad Profesional</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;"><strong>Cambios Positivos:</strong></p>
+                            <ul class="insight-list">
+                                ${profIdentity.positiveChanges.map(c => `
+                                    <li>${c.change}</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // === RECOMENDACIONES PARA ESTUDIANTES ===
+                const studentRecs = InsightsLoader.getRecommendationsByRole('students');
+                if (studentRecs && studentRecs.length > 0) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #10b981;">
+                            <h3><i class="fa-solid fa-graduation-cap"></i> Recomendaciones para Estudiantes</h3>
+                            ${studentRecs.map(area => `
+                                <div style="margin-bottom: 1rem;">
+                                    <strong style="color: var(--primary-color);">${area.area} (Prioridad: ${area.priority})</strong>
+                                    <ul class="insight-list" style="margin-top: 0.5rem;">
+                                        ${area.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                // === RECOMENDACIONES PARA PROFESORES ===
+                const profRecs = InsightsLoader.getRecommendationsByRole('professors');
+                if (profRecs && profRecs.length > 0) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #3b82f6;">
+                            <h3><i class="fa-solid fa-chalkboard-teacher"></i> Recomendaciones para Docentes</h3>
+                            ${profRecs.map(area => `
+                                <div style="margin-bottom: 1rem;">
+                                    <strong style="color: var(--primary-color);">${area.area} (Prioridad: ${area.priority})</strong>
+                                    <ul class="insight-list" style="margin-top: 0.5rem;">
+                                        ${area.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                // === RECOMENDACIONES PARA INSTITUCIÓN ===
+                const instRecs = InsightsLoader.getRecommendationsByRole('institution');
+                if (instRecs && instRecs.length > 0) {
+                    html += `
+                        <div class="insight-card" style="border-left-color: #ec4899;">
+                            <h3><i class="fa-solid fa-building"></i> Recomendaciones para la Institución</h3>
+                            ${instRecs.map(area => `
+                                <div style="margin-bottom: 1rem;">
+                                    <strong style="color: var(--primary-color);">${area.area} (Prioridad: ${area.priority})</strong>
+                                    <ul class="insight-list" style="margin-top: 0.5rem;">
+                                        ${area.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                // === CITAS REPRESENTATIVAS ===
+                const quotes = InsightsLoader.getRepresentativeQuotes();
+                if (quotes) {
+                    if (quotes.students && quotes.students.length > 0) {
+                        html += `
+                            <div class="insight-card" style="border-left-color: #f59e0b;">
+                                <h3><i class="fa-solid fa-quote-left"></i> Citas Representativas - Estudiantes</h3>
+                                ${quotes.students.map(q => `
+                                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--card-bg); border-radius: 8px;">
+                                        <p style="font-style: italic; color: var(--text-primary); margin-bottom: 0.5rem;">"${q.quote}"</p>
+                                        <p style="font-size: 0.9em; color: var(--text-secondary);">
+                                            — ${q.source} | Tema: ${q.theme}
+                                        </p>
+                                    </div>
+                                `).join('')}
                             </div>
-                            <div>
-                                <strong>Desventajas:</strong>
-                                <ul class="insight-list">
-                                    ${areas.copresence.disadvantages.slice(0, 3).map(d => `<li>${d}</li>`).join('')}
-                                </ul>
+                        `;
+                    }
+
+                    if (quotes.professors && quotes.professors.length > 0) {
+                        html += `
+                            <div class="insight-card" style="border-left-color: #3b82f6;">
+                                <h3><i class="fa-solid fa-quote-left"></i> Citas Representativas - Docentes</h3>
+                                ${quotes.professors.map(q => `
+                                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--card-bg); border-radius: 8px;">
+                                        <p style="font-style: italic; color: var(--text-primary); margin-bottom: 0.5rem;">"${q.quote}"</p>
+                                        <p style="font-size: 0.9em; color: var(--text-secondary);">
+                                            — ${q.source} | Tema: ${q.theme}
+                                        </p>
+                                    </div>
+                                `).join('')}
                             </div>
-                        </div>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Triangulación</h3>
-                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.copresence.triangulation.convergence}</p>
-                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.copresence.triangulation.divergence}</p>
-                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.copresence.triangulation.criticalPoint}</p>
-                    </div>
-                `;
+                        `;
+                    }
+
+                    if (quotes.coEvaluators && quotes.coEvaluators.length > 0) {
+                        html += `
+                            <div class="insight-card" style="border-left-color: #10b981;">
+                                <h3><i class="fa-solid fa-quote-left"></i> Citas Representativas - Co-Evaluadores</h3>
+                                ${quotes.coEvaluators.map(q => `
+                                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--card-bg); border-radius: 8px;">
+                                        <p style="font-style: italic; color: var(--text-primary); margin-bottom: 0.5rem;">"${q.quote}"</p>
+                                        <p style="font-size: 0.9em; color: var(--text-secondary);">
+                                            — ${q.source} | Tema: ${q.theme}
+                                        </p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+                }
+
+                grid.innerHTML = html;
+                console.log('✅ TODOS los insights cargados correctamente');
+
+            } catch (error) {
+                console.error('Error loading insights:', error);
             }
-            html += `</div>`;
-
-            // 5. Supervision
-            html += `<div class="tab-content" data-content="supervision">`;
-            if (areas.supervision) {
-                html += `
-                    <div class="insight-card">
-                        <h3>Calidad Percibida</h3>
-                        <p><strong>Rating Estudiantes:</strong> ${areas.supervision.studentRatings.average}/5</p>
-                        <p><strong>Auto-evaluación Docente:</strong> ${areas.supervision.professorsPerspective.selfRating}/5</p>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Brechas Identificadas</h3>
-                        <ul class="insight-list">
-                            ${areas.supervision.gaps.map(g => `<li>${g}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Triangulación</h3>
-                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.supervision.triangulation.convergence}</p>
-                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.supervision.triangulation.divergence}</p>
-                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.supervision.triangulation.criticalPoint}</p>
-                    </div>
-                `;
-            }
-            html += `</div>`;
-
-            // 6. Context
-            html += `<div class="tab-content" data-content="context">`;
-            if (areas.context) {
-                html += `
-                    <div class="insight-card">
-                        <h3>Factores Contextuales</h3>
-                        <ul class="insight-list">
-                            ${areas.context.factors.map(f => `<li>${f.factor} (${f.mentions} menciones)</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Adaptaciones Realizadas</h3>
-                        <ul class="insight-list">
-                            ${areas.context.adaptations.map(a => `<li>${a}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h3>Triangulación</h3>
-                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.context.triangulation.convergence}</p>
-                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.context.triangulation.divergence}</p>
-                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.context.triangulation.criticalPoint}</p>
-                    </div>
-                `;
-            }
-            html += `</div>`;
-
-            container.innerHTML = html;
-        }
-
-        function loadClinicalThemes() {
-            const themes = InsightsLoader.getClinicalThemes();
-            if (!themes) return;
-
-            const container = document.getElementById('clinical-themes');
-            let html = '';
-
-            themes.forEach(theme => {
-                html += `
-                    <div class="insight-card">
-                        <h3>${theme.theme}</h3>
-                        <p><strong>Prevalencia:</strong> <span class="badge badge-critical">${theme.prevalence}</span></p>
-                        ${theme.contexts ? `<p><strong>Contextos:</strong> ${theme.contexts.join(', ')}</p>` : ''}
-                        ${theme.interventions ? `<p><strong>Intervenciones:</strong> ${theme.interventions.join(', ')}</p>` : ''}
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-        }
-
-        function loadCriticalFindings() {
-            const findings = InsightsLoader.getCriticalFindings();
-            if (!findings) return;
-
-            const container = document.getElementById('critical-content');
-            let html = '';
-
-            // Strengths
-            html += `<div class="tab-content active" data-content-critical="strengths">`;
-            findings.strengths.forEach(s => {
-                html += `
-                    <div class="insight-card">
-                        <h3>${s.area}</h3>
-                        <p>${s.description}</p>
-                        <ul class="insight-list">
-                            ${s.evidence.map(e => `<li>${e}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-            });
-            html += `</div>`;
-
-            // Weaknesses
-            html += `<div class="tab-content" data-content-critical="weaknesses">`;
-            findings.weaknesses.forEach(w => {
-                html += `
-                    <div class="insight-card" style="border-left-color: var(--danger-color, #ef4444);">
-                        <h3>${w.area} <span class="badge badge-critical">${w.severity}</span></h3>
-                        <p>${w.description}</p>
-                        ${w.evidence ? `<ul class="insight-list">${w.evidence.map(e => `<li>${e}</li>`).join('')}</ul>` : ''}
-                        ${w.impact ? `<p><strong>Impacto:</strong> ${w.impact}</p>` : ''}
-                    </div>
-                `;
-            });
-            html += `</div>`;
-
-            // External Factors
-            html += `<div class="tab-content" data-content-critical="external">`;
-            findings.externalFactors.forEach(f => {
-                html += `
-                    <div class="insight-card">
-                        <h3>${f.factor}</h3>
-                        <p><strong>Problemas:</strong> ${Array.isArray(f.issues) ? f.issues.join(', ') : f.impact}</p>
-                        ${f.impact && Array.isArray(f.issues) ? `<p><strong>Impacto:</strong> ${f.impact}</p>` : ''}
-                    </div>
-                `;
-            });
-            html += `</div>`;
-
-            // Professional Identity
-            html += `<div class="tab-content" data-content-critical="identity">`;
-            const identity = findings.professionalIdentity;
-
-            html += `<div class="insight-card"><h3>Cambios Positivos</h3><ul class="insight-list">
-                ${identity.positiveChanges.map(c => `<li>${c}</li>`).join('')}
-            </ul></div>`;
-
-            html += `<div class="insight-card"><h3>Desafíos Persistentes</h3><ul class="insight-list">
-                ${identity.persistentChallenges.map(c => `<li>${c}</li>`).join('')}
-            </ul></div>`;
-
-            if (identity.keyLearnings) {
-                html += `<div class="insight-card"><h3>Aprendizajes Clave</h3><ul class="insight-list">
-                    ${identity.keyLearnings.map(c => `<li>${c}</li>`).join('')}
-                </ul></div>`;
-            }
-            html += `</div>`;
-
-            container.innerHTML = html;
-        }
-
-        function loadRecommendations() {
-            const students = InsightsLoader.getRecommendationsByRole('students');
-            const professors = InsightsLoader.getRecommendationsByRole('professors');
-            const institution = InsightsLoader.getRecommendationsByRole('institution');
-
-            const container = document.getElementById('recommendations-content');
-            let html = '';
-
-            // Students tab
-            html += `<div class="tab-content active" data-content-rec="students">`;
-            if (students) {
-                students.forEach(s => {
-                    html += `
-                        <div class="recommendation-card">
-                            <h4>${s.area}</h4>
-                            <ul class="insight-list">
-                                ${s.recommendations.map(r => `<li>${r}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                });
-            }
-            html += `</div>`;
-
-            // Professors tab
-            html += `<div class="tab-content" data-content-rec="professors">`;
-            if (professors) {
-                professors.forEach(s => {
-                    html += `
-                        <div class="recommendation-card">
-                            <h4>${s.area}</h4>
-                            <ul class="insight-list">
-                                ${s.recommendations.map(r => `<li>${r}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                });
-            }
-            html += `</div>`;
-
-            // Institution tab
-            html += `<div class="tab-content" data-content-rec="institution">`;
-            if (institution) {
-                institution.forEach(s => {
-                    html += `
-                        <div class="recommendation-card">
-                            <h4>${s.area}</h4>
-                            <ul class="insight-list">
-                                ${s.recommendations.map(r => `<li>${r}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                });
-            }
-            html += `</div>`;
-
-            container.innerHTML = html;
-        }
-
-        function setupTabs() {
-            // Tabs para análisis transversal
-            document.querySelectorAll('.tab[data-tab]').forEach(tab => {
-                tab.addEventListener('click', function () {
-                    const tabName = this.dataset.tab;
-
-                    // Remove active from all tabs
-                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // Show corresponding content
-                    document.querySelectorAll('.tab-content[data-content]').forEach(content => {
-                        if (content.dataset.content === tabName) {
-                            content.classList.add('active');
-                        } else {
-                            content.classList.remove('active');
-                        }
-                    });
-                });
-            });
-
-            // Tabs para hallazgos críticos
-            document.querySelectorAll('.tab[data-tab-critical]').forEach(tab => {
-                tab.addEventListener('click', function () {
-                    const tabName = this.dataset.tabCritical;
-
-                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    document.querySelectorAll('.tab-content[data-content-critical]').forEach(content => {
-                        if (content.dataset.contentCritical === tabName) {
-                            content.classList.add('active');
-                        } else {
-                            content.classList.remove('active');
-                        }
-                    });
-                });
-            });
-
-            // Tabs para recomendaciones
-            document.querySelectorAll('.tab[data-tab-rec]').forEach(tab => {
-                tab.addEventListener('click', function () {
-                    const tabName = this.dataset.tabRec;
-
-                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    document.querySelectorAll('.tab-content[data-content-rec]').forEach(content => {
-                        if (content.dataset.contentRec === tabName) {
-                            content.classList.add('active');
-                        } else {
-                            content.classList.remove('active');
-                        }
-                    });
-                });
-            });
-        }
-
-        function exportInsights() {
-            InsightsLoader.exportToJSON();
         }
     </script>
 </body>

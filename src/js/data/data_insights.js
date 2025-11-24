@@ -296,175 +296,175 @@ const dataInsights = {
                 { disadvantage: "Dependencia (uno activo, otro pasivo)", mentions: 3, severity: "Alto", source: "Docentes" },
                 { disadvantage: "Demasiadas intervenciones simultáneas", mentions: 1, severity: "Medio", source: "Docentes" },
                 { disadvantage: "Impacto parcial en validez psicométrica", mentions: 2, severity: "Medio-Alto" }
-            },
-        // Análisis de FDP9 (sinergia de equipos)
-        teamDynamics: {
-            goodSynergy: "Minoría de equipos",
-            issues: [
-                "Competencia por protagonismo ante el paciente",
-                "Relaciones fracturadas por desigualdad de roles",
-                "Miedo en algunos estudiantes sin competencias verbales",
-                "Acomodamiento de algunos miembros del equipo",
-                "Dependencia y justificación excesiva en el grupo"
             ],
-            professorObservation: "Siempre hay uno que asume rol activo y otro pasivo, depende de seguridad y vocación del estudiante"
-        },
-        // Análisis de FCP5 (claridad de roles)
-        roleDefinition: {
-            wellDefined: 0,
-            partiallyDefined: 2, // "Se definieron sobre la marcha"
-            notDefined: 0,
-            percentage_improvised: 100,
-            impact: "Crítico - Falta de planificación previa de roles"
-        },
-        triangulation: {
-            convergence: "Todas las perspectivas coinciden en que la co-presencia da seguridad al estudiante novato (especialmente co-evaluadores con 4.5/5).",
-            divergence: "Estudiantes valoran fuertemente el apoyo emocional (35.71% dan rating 5); Docentes critican la dependencia, falta de autonomía y riesgo de competencia que genera (observado en dinámica de equipos).",
-            criticalPoint: "La co-presencia funciona SOLO si los roles están claramente definidos ANTES; en este caso, 100% de co-evaluadores reportan definición parcial 'sobre la marcha', lo que genera competencia, pasividad o desorganización.",
-            quantitativeEvidence: {
-                usageRate: "64.29% usó co-presencia",
-                studentsPolarization: "50% positivo vs 28.57% negativo",
-                roleImprovisation: "100% sin roles predefinidos",
-                professorsObserveCritical: "Dependencia y competencia observadas"
-            }
-        }
-    },
-
-    // 5. SUPERVISIÓN Y ACOMPAÑAMIENTO DOCENTE
-    supervision: {
-        description: "Calidad y utilidad del acompañamiento docente durante el proceso clínico",
-        // Análisis cuantitativo de FEP28
-        studentRatings: {
-            ratings: [4, 5, 3, 4, 1, 4, 2, 4, 4, 1, 1, 2, 3, 1],
-            average: 2.79,
-            median: 3,
-            mode: [1, 4],
-            distribution: {
-                score1: 4,  // 28.57% - Muy pobre
-                score2: 2,  // 14.29% - Pobre
-                score3: 2,  // 14.29% - Aceptable
-                score4: 5,  // 35.71% - Bueno
-                score5: 1   // 7.14% - Muy bueno
+            // Análisis de FDP9 (sinergia de equipos)
+            teamDynamics: {
+                goodSynergy: "Minoría de equipos",
+                issues: [
+                    "Competencia por protagonismo ante el paciente",
+                    "Relaciones fracturadas por desigualdad de roles",
+                    "Miedo en algunos estudiantes sin competencias verbales",
+                    "Acomodamiento de algunos miembros del equipo",
+                    "Dependencia y justificación excesiva en el grupo"
+                ],
+                professorObservation: "Siempre hay uno que asume rol activo y otro pasivo, depende de seguridad y vocación del estudiante"
             },
-            interpretation: "Baja a Media con ALTA variabilidad. Polarización entre experiencias muy negativas (28.57% rating 1) y positivas (35.71% rating 4)."
-        },
-        // Análisis de FEP29 (¿Ayudó a síntesis diagnóstica?)
-        helpfulForDiagnosis: {
-            yes: 7,
-            no: 7,
-            percentage_helpful: 50.00,
-            interpretation: "Dividido exactamente 50/50, refleja alta inconsistencia en calidad de supervisión"
-        },
-        // Análisis de FEP30 (momento crítico y brechas)
-        criticalMoments: [
-            { moment: "Cierre y defensa final", utility: "Alta", mentions: 4 },
-            { moment: "Manejo de crisis y cancelaciones", utility: "Necesaria pero insuficiente", mentions: 3 },
-            { moment: "Interpretación de pruebas", utility: "Crítica", mentions: 2, source: "Docentes" },
-            { moment: "Aclaración de dudas puntuales", utility: "Media", mentions: 2 }
-        ],
-        gaps: [
-            { gap: "Falta de tiempo individualizado", severity: "Alto", mentions: 5 },
-            { gap: "Respuestas tardías o ausentes a dudas", severity: "Alto", mentions: 4 },
-            { gap: "Sensación de abandono en fases intermedias", severity: "Alto", mentions: 6 },
-            { gap: "Falta de disponibilidad docente", severity: "Alto", mentions: 3 },
-            { gap: "Falta de acompañamiento cercano a grupos", severity: "Medio", mentions: 2 },
-            { gap: "Supervisión insuficiente en aplicación de pruebas", severity: "Alto", mentions: 2 }
-        ],
-        // Análisis de FDP14, FDP18 (auto-evaluación docente)
-        professorsPerspective: {
-            selfRating: 4.0, // Ambos docentes se autoevaluaron con 4
-            challenges: [
-                { challenge: "Ratio alumnos/docente muy alto / grupos grandes", severity: "Crítico" },
-                { challenge: "Falta de horarios exclusivos para supervisión clínica", severity: "Alto" },
-                { challenge: "Estudiantes no leen ni investigan por cuenta propia", severity: "Alto" },
-                { challenge: "Poco tiempo disponible en general", severity: "Crítico" },
-                { challenge: "Falta de herramientas pedagógicas (protocolos de atención)", severity: "Medio" }
-            ],
-            // Análisis de FDP12 (recursos y acompañamiento)
-            resourceAssessment: {
-                hadTools: "Sí, herramientas didácticas básicas",
-                hadTime: "No, tiempo insuficiente para acompañamiento individualizado",
-                mostCriticalPhase: "Interpretación de resultados",
-                idealNeeds_S1: "Protocolos de atención, cursos adicionales de psicometría",
-                idealNeeds_S2: "Grupos pequeños, horarios exclusivos, pruebas actualizadas"
+            // Análisis de FCP5 (claridad de roles)
+            roleDefinition: {
+                wellDefined: 0,
+                partiallyDefined: 2, // "Se definieron sobre la marcha"
+                notDefined: 0,
+                percentage_improvised: 100,
+                impact: "Crítico - Falta de planificación previa de roles"
+            },
+            triangulation: {
+                convergence: "Todas las perspectivas coinciden en que la co-presencia da seguridad al estudiante novato (especialmente co-evaluadores con 4.5/5).",
+                divergence: "Estudiantes valoran fuertemente el apoyo emocional (35.71% dan rating 5); Docentes critican la dependencia, falta de autonomía y riesgo de competencia que genera (observado en dinámica de equipos).",
+                criticalPoint: "La co-presencia funciona SOLO si los roles están claramente definidos ANTES; en este caso, 100% de co-evaluadores reportan definición parcial 'sobre la marcha', lo que genera competencia, pasividad o desorganización.",
+                quantitativeEvidence: {
+                    usageRate: "64.29% usó co-presencia",
+                    studentsPolarization: "50% positivo vs 28.57% negativo",
+                    roleImprovisation: "100% sin roles predefinidos",
+                    professorsObserveCritical: "Dependencia y competencia observadas"
+                }
             }
         },
-        // Análisis de FDP17 (evolución de identidad profesional observada)
-        identityEvolution: {
-            observed: true,
-            initialState: "Inseguridad y miedo a equivocarse",
-            finalState: "Mayor responsabilidad, mejor lenguaje clínico, conciencia de límites",
-            positiveChange: "Entusiasmo y motivación por el proceso clínico",
-            insight: "Reconocimiento de que el proceso clínico es científico y formal, no solo altruismo"
-        },
-        triangulation: {
-            convergence: "Todas las perspectivas coinciden en que el tiempo y los recursos son absolutamente insuficientes (100% consenso).",
-            divergence: "Estudiantes perciben 'falta de interés/apoyo/disponibilidad' del docente (28.57% rating 1); Docentes perciben 'falta de autonomía/lectura/preparación previa' de los estudiantes y reconocen su propia sobrecarga laboral.",
-            criticalPoint: "La brecha crítica en la supervisión genera un círculo vicioso: inseguridad estudiantil → errores técnicos no corregidos a tiempo → informes deficientes → necesidad de mayor corrección final. Solo 50% considera que la supervisión ayudó al diagnóstico.",
-            quantitativeEvidence: {
-                averageRating: "2.79/5 (Bajo)",
-                highVariability: "SD alta, rango 1-5",
-                helpedDiagnosis: "50% sí, 50% no",
-                professorSelfRating: "4.0/5",
-                gapPerception: "Diferente atribución causal del problema"
-            }
-        }
-    },
 
-    // 6. CONTEXTO Y ADAPTACIÓN CULTURAL
-    contextualAdaptation: {
-        description: "Adaptaciones realizadas según contexto familiar, socioemocional y cultural del paciente",
-        // Análisis de FEP31 (adaptaciones concretas)
-        factors: [
-            { factor: "Socio-emocional", mentions: 7, percentage: 50.00 },
-            { factor: "Familiar", mentions: 4, percentage: 28.57 },
-            { factor: "Cultural/Comunitario", mentions: 3, percentage: 21.43 },
-            { factor: "Educativo/Académico", mentions: 3, percentage: 21.43 },
-            { factor: "Emocional individual", mentions: 3, percentage: 21.43 }
-        ],
-        adaptations: [
-            { adaptation: "Flexibilidad horaria (fines de semana, fuera de clínica)", mentions: 3 },
-            { adaptation: "Ajuste de lenguaje (menos técnico, más empático)", mentions: 4 },
-            { adaptation: "Priorizar contención emocional sobre aplicación de pruebas", mentions: 5 },
-            { adaptation: "Adaptación de tiempos de sesión por disponibilidad paciente", mentions: 4 },
-            { adaptation: "Flexibilidad en técnicas por estado emocional", mentions: 3 },
-            { adaptation: "Cambio de ambiente (cafetería vs clínica)", mentions: 2 }
-        ],
-        // Análisis de FDP1 (observación docente sobre lectura contextual)
-        professorsObservation: {
-            effectiveness: "Mediana a Moderada",
-            critique_S1: "Poco estudio y lectura lleva a aprendizaje básico; falta formación adicional",
-            critique_S2: "Identifican elementos clave pero a veces interpretan desde prejuicios; requieren intervención para lecturas simplistas",
-            interventionNeeded: "Sí, en varios momentos para corregir lecturas erróneas del contexto"
+        // 5. SUPERVISIÓN Y ACOMPAÑAMIENTO DOCENTE
+        supervision: {
+            description: "Calidad y utilidad del acompañamiento docente durante el proceso clínico",
+            // Análisis cuantitativo de FEP28
+            studentRatings: {
+                ratings: [4, 5, 3, 4, 1, 4, 2, 4, 4, 1, 1, 2, 3, 1],
+                average: 2.79,
+                median: 3,
+                mode: [1, 4],
+                distribution: {
+                    score1: 4,  // 28.57% - Muy pobre
+                    score2: 2,  // 14.29% - Pobre
+                    score3: 2,  // 14.29% - Aceptable
+                    score4: 5,  // 35.71% - Bueno
+                    score5: 1   // 7.14% - Muy bueno
+                },
+                interpretation: "Baja a Media con ALTA variabilidad. Polarización entre experiencias muy negativas (28.57% rating 1) y positivas (35.71% rating 4)."
+            },
+            // Análisis de FEP29 (¿Ayudó a síntesis diagnóstica?)
+            helpfulForDiagnosis: {
+                yes: 7,
+                no: 7,
+                percentage_helpful: 50.00,
+                interpretation: "Dividido exactamente 50/50, refleja alta inconsistencia en calidad de supervisión"
+            },
+            // Análisis de FEP30 (momento crítico y brechas)
+            criticalMoments: [
+                { moment: "Cierre y defensa final", utility: "Alta", mentions: 4 },
+                { moment: "Manejo de crisis y cancelaciones", utility: "Necesaria pero insuficiente", mentions: 3 },
+                { moment: "Interpretación de pruebas", utility: "Crítica", mentions: 2, source: "Docentes" },
+                { moment: "Aclaración de dudas puntuales", utility: "Media", mentions: 2 }
+            ],
+            gaps: [
+                { gap: "Falta de tiempo individualizado", severity: "Alto", mentions: 5 },
+                { gap: "Respuestas tardías o ausentes a dudas", severity: "Alto", mentions: 4 },
+                { gap: "Sensación de abandono en fases intermedias", severity: "Alto", mentions: 6 },
+                { gap: "Falta de disponibilidad docente", severity: "Alto", mentions: 3 },
+                { gap: "Falta de acompañamiento cercano a grupos", severity: "Medio", mentions: 2 },
+                { gap: "Supervisión insuficiente en aplicación de pruebas", severity: "Alto", mentions: 2 }
+            ],
+            // Análisis de FDP14, FDP18 (auto-evaluación docente)
+            professorsPerspective: {
+                selfRating: 4.0, // Ambos docentes se autoevaluaron con 4
+                challenges: [
+                    { challenge: "Ratio alumnos/docente muy alto / grupos grandes", severity: "Crítico" },
+                    { challenge: "Falta de horarios exclusivos para supervisión clínica", severity: "Alto" },
+                    { challenge: "Estudiantes no leen ni investigan por cuenta propia", severity: "Alto" },
+                    { challenge: "Poco tiempo disponible en general", severity: "Crítico" },
+                    { challenge: "Falta de herramientas pedagógicas (protocolos de atención)", severity: "Medio" }
+                ],
+                // Análisis de FDP12 (recursos y acompañamiento)
+                resourceAssessment: {
+                    hadTools: "Sí, herramientas didácticas básicas",
+                    hadTime: "No, tiempo insuficiente para acompañamiento individualizado",
+                    mostCriticalPhase: "Interpretación de resultados",
+                    idealNeeds_S1: "Protocolos de atención, cursos adicionales de psicometría",
+                    idealNeeds_S2: "Grupos pequeños, horarios exclusivos, pruebas actualizadas"
+                }
+            },
+            // Análisis de FDP17 (evolución de identidad profesional observada)
+            identityEvolution: {
+                observed: true,
+                initialState: "Inseguridad y miedo a equivocarse",
+                finalState: "Mayor responsabilidad, mejor lenguaje clínico, conciencia de límites",
+                positiveChange: "Entusiasmo y motivación por el proceso clínico",
+                insight: "Reconocimiento de que el proceso clínico es científico y formal, no solo altruismo"
+            },
+            triangulation: {
+                convergence: "Todas las perspectivas coinciden en que el tiempo y los recursos son absolutamente insuficientes (100% consenso).",
+                divergence: "Estudiantes perciben 'falta de interés/apoyo/disponibilidad' del docente (28.57% rating 1); Docentes perciben 'falta de autonomía/lectura/preparación previa' de los estudiantes y reconocen su propia sobrecarga laboral.",
+                criticalPoint: "La brecha crítica en la supervisión genera un círculo vicioso: inseguridad estudiantil → errores técnicos no corregidos a tiempo → informes deficientes → necesidad de mayor corrección final. Solo 50% considera que la supervisión ayudó al diagnóstico.",
+                quantitativeEvidence: {
+                    averageRating: "2.79/5 (Bajo)",
+                    highVariability: "SD alta, rango 1-5",
+                    helpedDiagnosis: "50% sí, 50% no",
+                    professorSelfRating: "4.0/5",
+                    gapPerception: "Diferente atribución causal del problema"
+                }
+            }
         },
-        // Análisis de FEP27 (influencia del contexto físico)
-        physicalContextImpact: {
-            spaceIssues: [
-                { issue: "Clínica pequeña / falta de espacio", mentions: 3 },
-                { issue: "Ruido e interrupciones externas", mentions: 2 },
-                { issue: "Distractores ambientales", mentions: 2 },
-                { issue: "Falta de privacidad adecuada", mentions: 1 }
+
+        // 6. CONTEXTO Y ADAPTACIÓN CULTURAL
+        contextualAdaptation: {
+            description: "Adaptaciones realizadas según contexto familiar, socioemocional y cultural del paciente",
+            // Análisis de FEP31 (adaptaciones concretas)
+            factors: [
+                { factor: "Socio-emocional", mentions: 7, percentage: 50.00 },
+                { factor: "Familiar", mentions: 4, percentage: 28.57 },
+                { factor: "Cultural/Comunitario", mentions: 3, percentage: 21.43 },
+                { factor: "Educativo/Académico", mentions: 3, percentage: 21.43 },
+                { factor: "Emocional individual", mentions: 3, percentage: 21.43 }
             ],
             adaptations: [
-                "Dividir sesiones por limitación de tiempo/espacio",
-                "Cambiar orden de aplicación de pruebas",
-                "Aplicar pruebas fuera de clínica (cafetería)",
-                "Ajustar ritmo de evaluación por espacio reducido"
-            ]
-        },
-        triangulation: {
-            convergence: "Todas las perspectivas coinciden en que es absolutamente necesario adaptar el protocolo rígido a la realidad contextual del paciente (100% realizó alguna adaptación).",
-            divergence: "Estudiantes consideran que 'hicieron lo necesario' y fueron flexibles; Docentes advierten riesgos de 'perder el encuadre clínico' (ej. evaluar en cafeterías, horarios irregulares) y lecturas superficiales del contexto.",
-            criticalPoint: "La flexibilidad es positiva y necesaria, pero sin supervisión adecuada puede llevar a transgresiones del encuadre clínico y ético que comprometen la validez del proceso (ej. evaluaciones en espacios públicos ruidosos).",
-            quantitativeEvidence: {
-                adaptationRate: "100% realizó adaptaciones",
-                mainFactor: "Socio-emocional (50%)",
-                professorsIntervention: "Necesaria para corregir interpretaciones",
-                contextualReading: "Mediana según docentes"
+                { adaptation: "Flexibilidad horaria (fines de semana, fuera de clínica)", mentions: 3 },
+                { adaptation: "Ajuste de lenguaje (menos técnico, más empático)", mentions: 4 },
+                { adaptation: "Priorizar contención emocional sobre aplicación de pruebas", mentions: 5 },
+                { adaptation: "Adaptación de tiempos de sesión por disponibilidad paciente", mentions: 4 },
+                { adaptation: "Flexibilidad en técnicas por estado emocional", mentions: 3 },
+                { adaptation: "Cambio de ambiente (cafetería vs clínica)", mentions: 2 }
+            ],
+            // Análisis de FDP1 (observación docente sobre lectura contextual)
+            professorsObservation: {
+                effectiveness: "Mediana a Moderada",
+                critique_S1: "Poco estudio y lectura lleva a aprendizaje básico; falta formación adicional",
+                critique_S2: "Identifican elementos clave pero a veces interpretan desde prejuicios; requieren intervención para lecturas simplistas",
+                interventionNeeded: "Sí, en varios momentos para corregir lecturas erróneas del contexto"
+            },
+            // Análisis de FEP27 (influencia del contexto físico)
+            physicalContextImpact: {
+                spaceIssues: [
+                    { issue: "Clínica pequeña / falta de espacio", mentions: 3 },
+                    { issue: "Ruido e interrupciones externas", mentions: 2 },
+                    { issue: "Distractores ambientales", mentions: 2 },
+                    { issue: "Falta de privacidad adecuada", mentions: 1 }
+                ],
+                adaptations: [
+                    "Dividir sesiones por limitación de tiempo/espacio",
+                    "Cambiar orden de aplicación de pruebas",
+                    "Aplicar pruebas fuera de clínica (cafetería)",
+                    "Ajustar ritmo de evaluación por espacio reducido"
+                ]
+            },
+            triangulation: {
+                convergence: "Todas las perspectivas coinciden en que es absolutamente necesario adaptar el protocolo rígido a la realidad contextual del paciente (100% realizó alguna adaptación).",
+                divergence: "Estudiantes consideran que 'hicieron lo necesario' y fueron flexibles; Docentes advierten riesgos de 'perder el encuadre clínico' (ej. evaluar en cafeterías, horarios irregulares) y lecturas superficiales del contexto.",
+                criticalPoint: "La flexibilidad es positiva y necesaria, pero sin supervisión adecuada puede llevar a transgresiones del encuadre clínico y ético que comprometen la validez del proceso (ej. evaluaciones en espacios públicos ruidosos).",
+                quantitativeEvidence: {
+                    adaptationRate: "100% realizó adaptaciones",
+                    mainFactor: "Socio-emocional (50%)",
+                    professorsIntervention: "Necesaria para corregir interpretaciones",
+                    contextualReading: "Mediana según docentes"
+                }
             }
         }
-    }
-},
+    },
 
     // ANÁLISIS TEMÁTICO CONSOLIDADO
     thematicAnalysis: {
@@ -670,7 +670,7 @@ const dataInsights = {
             },
             {
                 area: "Lagunas de Conocimiento de Semestres Previos",
-                description: "Vacíos en psicop atología, evaluación, metodología de investigación",
+                description: "Vacíos en psicopatología, evaluación, metodología de investigación",
                 severity: "Alto",
                 evidence: [
                     "Conocimientos débiles en evaluación psicológica del adulto",

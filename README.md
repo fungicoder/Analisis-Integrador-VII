@@ -6,7 +6,7 @@ CUR-Estelí, UNAN-Managua
 
 ## 📋 Descripción del Proyecto
 
-Este proyecto contiene una aplicación web interactiva para la sistematización y análisis de experiencias del Estudio de Casos del componente Integrador VII de la carrera de Psicología. Incluye una landing page con información del proyecto y un dashboard interactivo para visualizar y analizar los datos recopilados.
+Este proyecto contiene una aplicación web interactiva para la sistematización y análisis de experiencias del Estudio de Casos del Componente Integrador VIII y del componente de Investigacion Cualitativa de la carrera de Psicología. Incluye una landing page con información del proyecto y un dashboard interactivo para visualizar y analizar los datos recopilados.
 
 ## 🚀 Cómo Usar
 
@@ -111,7 +111,7 @@ El dashboard permite visualizar tres conjuntos de datos:
 - Distribución global de respuestas
 - Palabras clave más frecuentes
 
-### Vistas Espec Entity íficas
+### Vistas Específicas
 - **Participación**: Análisis de participantes
 - **Positividad**: Índice de positividad de respuestas
 - **Palabras**: Análisis de palabras clave
@@ -131,7 +131,7 @@ El dashboard permite visualizar tres conjuntos de datos:
 
 ## 📝 Licencia y Uso
 
-Este proyecto es parte del trabajo académico del Componente Integrador VII de la carrera de Psicología en CUR-Estelí, UNAN-Managua.
+Este proyecto es parte del trabajo académico del Componente Integrador VIII y de Investigacion Cualitativa de la carrera de Psicología en CUR-Estelí, UNAN-Managua.
 
 ## 🔧 Soporte Técnico
 
@@ -161,4 +161,4 @@ Noviembre 2025 - Reorganización completa de la estructura del proyecto siguiend
 ---
 
 **CUR-Estelí, UNAN-Managua**  
-Carrera de Psicología - Componente Integrador VII
+Carrera de Psicología - Componente Integrador VIII e Investigacion Cualitativa

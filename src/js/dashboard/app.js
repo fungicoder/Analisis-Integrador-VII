@@ -220,10 +220,10 @@ function openModal(question, studentId, result) {
 
     if (modalBody) {
         modalBody.innerHTML = `
-            < div class="question-detail" >
+            <div class="question-detail">
                 <span class="label">PREGUNTA</span>
                 <p>${question.code}: ${question.text}</p>
-            </div >
+            </div>
             <div class="response-detail">
                 <span class="label">RESPUESTA (<span class="highlight">${studentId}</span>)</span>
                 <div class="response-box">
@@ -263,7 +263,7 @@ function openQuestionSummaryModal(question) {
 
     if (modalBody) {
         modalBody.innerHTML = `
-            < div class="summary-header" >
+            <div class="summary-header">
                 <h4>${question.text}</h4>
                 <div class="summary-stats">
                     <div class="stat-item">
@@ -279,7 +279,7 @@ function openQuestionSummaryModal(question) {
                         <span class="stat-label">Negativo</span>
                     </div>
                 </div>
-            </div >
+            </div>
 
             <div class="responses-list-container">
                 <h5>Respuestas por Participante</h5>
