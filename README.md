@@ -28,7 +28,7 @@ Analisis Integrador VII/
 ├── src/                            # Todo el código fuente
 │   ├── landing/                    # Landing page y páginas de presentación
 │   │   ├── index.html             # Página de entrada (portada)
-│   │   ├── presentacion.html      # Presentación del proyecto
+│   │   ├── index.html      # Presentación del proyecto
 │   │   ├── introduccion.html      # Introducción y contexto
 │   │   ├── metodologia.html       # Marco metodológico
 │   │   ├── objetivos.html         # Objetivos de investigación
