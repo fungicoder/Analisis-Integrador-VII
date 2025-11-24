@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights Consolidados - Integrador VII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../js/dashboard/analysis.js"></script>
+    <script src="../../js/data/data_insights.js"></script>
+    <script src="../../js/dashboard/insights-loader.js"></script>
+    <style>
+        .insights-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .insights-header {
+            margin-bottom: 2rem;
+        }
+
+        .insights-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .insights-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .insight-card {
+            background: var(--bg-primary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .insight-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .insight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insight-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .insight-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+
+        .badge-convergence {
+            background: rgba(34, 197, 94, 0.1);
+            color: rgb(34, 197, 94);
+        }
+
+        .badge-divergence {
+            background: rgba(239, 68, 68, 0.1);
+            color: rgb(239, 68, 68);
+        }
+
+        .badge-critical {
+            background: rgba(249, 115, 22, 0.1);
+            color: rgb(249, 115, 22);
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .quote-box .quote-text {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .quote-box .quote-source {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: normal;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .recommendation-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .recommendation-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-hover);
+            transform: translateX(-2px);
+        }
+
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+
+        .export-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="../../landing/presentacion.html">Inicio</a></li>
+                <li><a href="../../landing/introduccion.html">Introducción</a></li>
+                <li><a href="../../landing/objetivos.html">Objetivos</a></li>
+                <li><a href="../../landing/metodologia.html">Metodología</a></li>
+                <li><a href="../../landing/analisis.html">Análisis</a></li>
+                <li><a href="../index.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="insights-container">
+        <!-- Header -->
+        <div class="insights-header">
+            <h1><i class="fa-solid fa-lightbulb"></i> Insights Consolidados</h1>
+            <p>Análisis triangulado de las perspectivas de Estudiantes, Co-Evaluadores y Docentes</p>
+            <div style="margin-top: 1rem;">
+                <a href="../index.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+                </a>
+                <button class="export-btn" onclick="exportInsights()">
+                    <i class="fa-solid fa-download"></i> Exportar Insights
+                </button>
+            </div>
+        </div>
+
+        <!-- Resumen Ejecutivo -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-chart-line"></i>
+                Resumen Ejecutivo
+            </h2>
+            <div class="stats-grid" id="stats-grid">
+                <!-- Stats will be populated here -->
+            </div>
+        </div>
+
+        <!-- Análisis Transversal -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-diagram-project"></i>
+                Análisis Transversal
+            </h2>
+            <div class="tabs">
+                <button class="tab active" data-tab="rapport">Rapport y Alianza</button>
+                <button class="tab" data-tab="tests">Selección de Pruebas</button>
+                <button class="tab" data-tab="integration">Integración de Resultados</button>
+                <button class="tab" data-tab="copresence">Co-presencia</button>
+                <button class="tab" data-tab="supervision">Supervisión Docente</button>
+                <button class="tab" data-tab="context">Contexto Cultural</button>
+            </div>
+            <div id="tabs-content">
+                <!-- Tab content will be populated here -->
+            </div>
+        </div>
+
+        <!-- Temas Clínicos -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-notes-medical"></i>
+                Temas Clínicos Principales
+            </h2>
+            <div id="clinical-themes">
+                <!-- Themes will be populated here -->
+            </div>
+        </div>
+
+        <!-- Hallazgos Críticos -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                Hallazgos Críticos
+            </h2>
+            <div class="tabs">
+                <button class="tab active" data-tab-critical="strengths">Fortalezas</button>
+                <button class="tab" data-tab-critical="weaknesses">Debilidades</button>
+                <button class="tab" data-tab-critical="external">Factores Externos</button>
+                <button class="tab" data-tab-critical="identity">Identidad Profesional</button>
+            </div>
+            <div id="critical-content">
+                <!-- Critical findings will be populated here -->
+            </div>
+        </div>
+
+        <!-- Recomendaciones -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-list-check"></i>
+                Recomendaciones
+            </h2>
+            <div class="tabs">
+                <button class="tab active" data-tab-rec="students">Para Estudiantes</button>
+                <button class="tab" data-tab-rec="professors">Para Docentes</button>
+                <button class="tab" data-tab-rec="institution">Para la Institución</button>
+            </div>
+            <div id="recommendations-content">
+                <!-- Recommendations will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar vista de insights
+        document.addEventListener('DOMContentLoaded', function () {
+            loadStats();
+            loadTransversalAnalysis();
+            loadClinicalThemes();
+            loadCriticalFindings();
+            loadRecommendations();
+            setupTabs();
+        });
+
+        function loadStats() {
+            const stats = InsightsLoader.getStats();
+            const metadata = InsightsLoader.getMetadata();
+
+            if (!stats || !metadata) return;
+
+            const statsGrid = document.getElementById('stats-grid');
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${metadata.totalParticipants.students}</div>
+                    <div class="stat-label">Estudiantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${metadata.totalParticipants.coEvaluators}</div>
+                    <div class="stat-label">Co-Evaluadores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${metadata.totalParticipants.professors}</div>
+                    <div class="stat-label">Docentes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.totalAreas}</div>
+                    <div class="stat-label">Áreas de Análisis</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.totalThemes}</div>
+                    <div class="stat-label">Temas Clínicos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.totalPatterns}</div>
+                    <div class="stat-label">Patrones Identificados</div>
+                </div>
+            `;
+        }
+
+        function loadTransversalAnalysis() {
+            // Cargar cada área de análisis transversal
+            const areas = {
+                'rapport': InsightsLoader.getInsightByArea('rapport'),
+                'tests': InsightsLoader.getInsightByArea('testSelection'),
+                'integration': InsightsLoader.getInsightByArea('resultIntegration'),
+                'copresence': InsightsLoader.getInsightByArea('coPresence'),
+                'supervision': InsightsLoader.getInsightByArea('supervision'),
+                'context': InsightsLoader.getInsightByArea('contextualAdaptation')
+            };
+
+            const container = document.getElementById('tabs-content');
+            let html = '';
+
+            // 1. Rapport
+            html += `<div class="tab-content active" data-content="rapport">`;
+            if (areas.rapport) {
+                html += `
+                    <div class="insight-card">
+                        <h3>Perspectiva de Estudiantes</h3>
+                        <p><strong>Técnicas Más Usadas:</strong></p>
+                        <ul class="insight-list">
+                            ${areas.rapport.studentsPerspective.techniques.map(t =>
+                    `<li>${t.technique} (${t.percentage.toFixed(1)}%)</li>`
+                ).join('')}
+                        </ul>
+                        <p><strong>Desafíos:</strong></p>
+                        <ul class="insight-list">
+                            ${areas.rapport.studentsPerspective.challenges.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Perspectiva de Co-Evaluadores</h3>
+                        <p><strong>Rating:</strong> ${areas.rapport.coEvaluatorsPerspective.rating}/5</p>
+                        <p><strong>Impacto:</strong> ${areas.rapport.coEvaluatorsPerspective.impact}</p>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Perspectiva de Docentes</h3>
+                        <p><strong>Rating:</strong> ${areas.rapport.professorsPerspective.rating}/5</p>
+                        <ul class="insight-list">
+                            ${areas.rapport.professorsPerspective.observations.map(o => `<li>${o}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Triangulación</h3>
+                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.rapport.triangulation.convergence}</p>
+                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.rapport.triangulation.divergence}</p>
+                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.rapport.triangulation.criticalPoint}</p>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+
+            // 2. Tests (Selección de Pruebas)
+            html += `<div class="tab-content" data-content="tests">`;
+            if (areas.tests) {
+                html += `
+                    <div class="insight-card">
+                        <h3>Pruebas Más Utilizadas</h3>
+                        <ul class="insight-list">
+                            ${areas.tests.mostUsedTests.slice(0, 5).map(t => `<li><strong>${t.test}</strong>: ${t.context}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Factores de Modificación</h3>
+                        <ul class="insight-list">
+                            ${areas.tests.modificationFactors.map(f => `<li>${f.factor} (Impacto: ${f.impact})</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Triangulación</h3>
+                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.tests.triangulation.convergence}</p>
+                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.tests.triangulation.divergence}</p>
+                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.tests.triangulation.criticalPoint}</p>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+
+            // 3. Integration (Integración de Resultados)
+            html += `<div class="tab-content" data-content="integration">`;
+            if (areas.integration) {
+                html += `
+                    <div class="insight-card">
+                        <h3>Principales Desafíos</h3>
+                        <ul class="insight-list">
+                            ${areas.integration.mainChallenges.map(c =>
+                    `<li><strong>${c.challenge}</strong> (${c.perspective}): ${c.detail || ''}</li>`
+                ).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Competencias Necesarias (Estudiantes)</h3>
+                        <ul class="insight-list">
+                            ${areas.integration.studentCompetencies.gaps.map(g => `<li>${g}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Triangulación</h3>
+                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.integration.triangulation.convergence}</p>
+                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.integration.triangulation.divergence}</p>
+                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.integration.triangulation.criticalPoint}</p>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+
+            // 4. Co-presence (Co-presencia)
+            html += `<div class="tab-content" data-content="copresence">`;
+            if (areas.copresence) {
+                html += `
+                    <div class="insight-card">
+                        <h3>Impacto Percibido</h3>
+                        <p><strong>Estudiantes:</strong> ${areas.copresence.impactRatings.students.average.toFixed(2)}/5 - ${areas.copresence.impactRatings.students.interpretation}</p>
+                        <p><strong>Co-Evaluadores:</strong> ${areas.copresence.impactRatings.coEvaluators.average}/5 - ${areas.copresence.impactRatings.coEvaluators.interpretation}</p>
+                        <p><strong>Docentes:</strong> ${areas.copresence.impactRatings.professors.average}/5 - ${areas.copresence.impactRatings.professors.interpretation}</p>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Ventajas vs Desventajas</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <strong>Ventajas:</strong>
+                                <ul class="insight-list">
+                                    ${areas.copresence.advantages.slice(0, 3).map(a => `<li>${a}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>Desventajas:</strong>
+                                <ul class="insight-list">
+                                    ${areas.copresence.disadvantages.slice(0, 3).map(d => `<li>${d}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Triangulación</h3>
+                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.copresence.triangulation.convergence}</p>
+                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.copresence.triangulation.divergence}</p>
+                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.copresence.triangulation.criticalPoint}</p>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+
+            // 5. Supervision
+            html += `<div class="tab-content" data-content="supervision">`;
+            if (areas.supervision) {
+                html += `
+                    <div class="insight-card">
+                        <h3>Calidad Percibida</h3>
+                        <p><strong>Rating Estudiantes:</strong> ${areas.supervision.studentRatings.average}/5</p>
+                        <p><strong>Auto-evaluación Docente:</strong> ${areas.supervision.professorsPerspective.selfRating}/5</p>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Brechas Identificadas</h3>
+                        <ul class="insight-list">
+                            ${areas.supervision.gaps.map(g => `<li>${g}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Triangulación</h3>
+                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.supervision.triangulation.convergence}</p>
+                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.supervision.triangulation.divergence}</p>
+                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.supervision.triangulation.criticalPoint}</p>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+
+            // 6. Context
+            html += `<div class="tab-content" data-content="context">`;
+            if (areas.context) {
+                html += `
+                    <div class="insight-card">
+                        <h3>Factores Contextuales</h3>
+                        <ul class="insight-list">
+                            ${areas.context.factors.map(f => `<li>${f.factor} (${f.mentions} menciones)</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Adaptaciones Realizadas</h3>
+                        <ul class="insight-list">
+                            ${areas.context.adaptations.map(a => `<li>${a}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <h3>Triangulación</h3>
+                        <p><span class="badge badge-convergence">Convergencia</span> ${areas.context.triangulation.convergence}</p>
+                        <p><span class="badge badge-divergence">Divergencia</span> ${areas.context.triangulation.divergence}</p>
+                        <p><span class="badge badge-critical">Punto Crítico</span> ${areas.context.triangulation.criticalPoint}</p>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function loadClinicalThemes() {
+            const themes = InsightsLoader.getClinicalThemes();
+            if (!themes) return;
+
+            const container = document.getElementById('clinical-themes');
+            let html = '';
+
+            themes.forEach(theme => {
+                html += `
+                    <div class="insight-card">
+                        <h3>${theme.theme}</h3>
+                        <p><strong>Prevalencia:</strong> <span class="badge badge-critical">${theme.prevalence}</span></p>
+                        ${theme.contexts ? `<p><strong>Contextos:</strong> ${theme.contexts.join(', ')}</p>` : ''}
+                        ${theme.interventions ? `<p><strong>Intervenciones:</strong> ${theme.interventions.join(', ')}</p>` : ''}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function loadCriticalFindings() {
+            const findings = InsightsLoader.getCriticalFindings();
+            if (!findings) return;
+
+            const container = document.getElementById('critical-content');
+            let html = '';
+
+            // Strengths
+            html += `<div class="tab-content active" data-content-critical="strengths">`;
+            findings.strengths.forEach(s => {
+                html += `
+                    <div class="insight-card">
+                        <h3>${s.area}</h3>
+                        <p>${s.description}</p>
+                        <ul class="insight-list">
+                            ${s.evidence.map(e => `<li>${e}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+
+            // Weaknesses
+            html += `<div class="tab-content" data-content-critical="weaknesses">`;
+            findings.weaknesses.forEach(w => {
+                html += `
+                    <div class="insight-card" style="border-left-color: var(--danger-color, #ef4444);">
+                        <h3>${w.area} <span class="badge badge-critical">${w.severity}</span></h3>
+                        <p>${w.description}</p>
+                        ${w.evidence ? `<ul class="insight-list">${w.evidence.map(e => `<li>${e}</li>`).join('')}</ul>` : ''}
+                        ${w.impact ? `<p><strong>Impacto:</strong> ${w.impact}</p>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+
+            // External Factors
+            html += `<div class="tab-content" data-content-critical="external">`;
+            findings.externalFactors.forEach(f => {
+                html += `
+                    <div class="insight-card">
+                        <h3>${f.factor}</h3>
+                        <p><strong>Problemas:</strong> ${Array.isArray(f.issues) ? f.issues.join(', ') : f.impact}</p>
+                        ${f.impact && Array.isArray(f.issues) ? `<p><strong>Impacto:</strong> ${f.impact}</p>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+
+            // Professional Identity
+            html += `<div class="tab-content" data-content-critical="identity">`;
+            const identity = findings.professionalIdentity;
+
+            html += `<div class="insight-card"><h3>Cambios Positivos</h3><ul class="insight-list">
+                ${identity.positiveChanges.map(c => `<li>${c}</li>`).join('')}
+            </ul></div>`;
+
+            html += `<div class="insight-card"><h3>Desafíos Persistentes</h3><ul class="insight-list">
+                ${identity.persistentChallenges.map(c => `<li>${c}</li>`).join('')}
+            </ul></div>`;
+
+            if (identity.keyLearnings) {
+                html += `<div class="insight-card"><h3>Aprendizajes Clave</h3><ul class="insight-list">
+                    ${identity.keyLearnings.map(c => `<li>${c}</li>`).join('')}
+                </ul></div>`;
+            }
+            html += `</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function loadRecommendations() {
+            const students = InsightsLoader.getRecommendationsByRole('students');
+            const professors = InsightsLoader.getRecommendationsByRole('professors');
+            const institution = InsightsLoader.getRecommendationsByRole('institution');
+
+            const container = document.getElementById('recommendations-content');
+            let html = '';
+
+            // Students tab
+            html += `<div class="tab-content active" data-content-rec="students">`;
+            if (students) {
+                students.forEach(s => {
+                    html += `
+                        <div class="recommendation-card">
+                            <h4>${s.area}</h4>
+                            <ul class="insight-list">
+                                ${s.recommendations.map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+
+            // Professors tab
+            html += `<div class="tab-content" data-content-rec="professors">`;
+            if (professors) {
+                professors.forEach(s => {
+                    html += `
+                        <div class="recommendation-card">
+                            <h4>${s.area}</h4>
+                            <ul class="insight-list">
+                                ${s.recommendations.map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+
+            // Institution tab
+            html += `<div class="tab-content" data-content-rec="institution">`;
+            if (institution) {
+                institution.forEach(s => {
+                    html += `
+                        <div class="recommendation-card">
+                            <h4>${s.area}</h4>
+                            <ul class="insight-list">
+                                ${s.recommendations.map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function setupTabs() {
+            // Tabs para análisis transversal
+            document.querySelectorAll('.tab[data-tab]').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabName = this.dataset.tab;
+
+                    // Remove active from all tabs
+                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Show corresponding content
+                    document.querySelectorAll('.tab-content[data-content]').forEach(content => {
+                        if (content.dataset.content === tabName) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Tabs para hallazgos críticos
+            document.querySelectorAll('.tab[data-tab-critical]').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabName = this.dataset.tabCritical;
+
+                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    document.querySelectorAll('.tab-content[data-content-critical]').forEach(content => {
+                        if (content.dataset.contentCritical === tabName) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Tabs para recomendaciones
+            document.querySelectorAll('.tab[data-tab-rec]').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabName = this.dataset.tabRec;
+
+                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    document.querySelectorAll('.tab-content[data-content-rec]').forEach(content => {
+                        if (content.dataset.contentRec === tabName) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        function exportInsights() {
+            InsightsLoader.exportToJSON();
+        }
+    </script>
+</body>
+
+</html>

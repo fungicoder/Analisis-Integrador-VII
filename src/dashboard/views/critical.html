@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temas Críticos - Análisis Integrador VII</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="../../landing/presentacion.html">Inicio</a></li>
+                <li><a href="../../landing/introduccion.html">Introducción</a></li>
+                <li><a href="../../landing/objetivos.html">Objetivos</a></li>
+                <li><a href="../../landing/metodologia.html">Metodología</a></li>
+                <li><a href="../../landing/analisis.html">Análisis</a></li>
+                <li><a href="../index.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="logo-text">
+                    <h1>Análisis Integrador VII</h1>
+                    <span>Evaluación de Casos Clínicos</span>
+                </div>
+            </div>
+            <div class="nav-section">
+                <a href="../index.html" class="nav-item"><i class="fa-solid fa-arrow-left"></i> Volver al Dashboard</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Temas Críticos Detectados</h2>
+            </header>
+
+            <div class="content-scroll">
+                <div class="dashboard-grid">
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>Frecuencia de Temas Críticos</h3>
+                        <canvas id="themesChart" style="max-height: 300px;"></canvas>
+                    </div>
+
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>Análisis Contextual</h3>
+                        <p class="text-secondary">Palabras más frecuentes asociadas a cada tema crítico.</p>
+                        <div id="context-grid" class="context-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Temas Críticos - Análisis Integrador VII</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="../../css/dashboard.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    </head>
+
+    <body>
+        <div class="app-container">
+            <aside class="sidebar">
+                <div class="logo-area">
+                    <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="logo-text">
+                        <h1>Análisis Integrador VII</h1>
+                        <span>Evaluación de Casos Clínicos</span>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <a href="../index.html" class="nav-item"><i class="fa-solid fa-arrow-left"></i> Volver al
+                        Dashboard</a>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <header class="top-bar">
+                    <h2>Temas Críticos Detectados</h2>
+                </header>
+
+                <div class="content-scroll">
+                    <div class="dashboard-grid">
+                        <div class="card" style="grid-column: span 2;">
+                            <h3>Frecuencia de Temas Críticos</h3>
+                            <canvas id="themesChart" style="max-height: 300px;"></canvas>
+                        </div>
+
+                        <div class="card" style="grid-column: span 2;">
+                            <h3>Análisis Contextual</h3>
+                            <p class="text-secondary">Palabras más frecuentes asociadas a cada tema crítico.</p>
+                            <div id="context-grid" class="context-grid">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script src="../../js/data/data_fe.js"></script>
+        <script src="../../js/data/data_fc.js"></script>
+        <script src="../../js/data/data_fd.js"></script>
+        <script src="../../js/dashboard/analysis.js"></script>
+        <script src="../../js/dashboard/view-init.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                await initViewData();
+
+                const distribution = Analysis.getThemeDistribution();
+                const relationships = Analysis.getCriticalRelationships();
+
+                // Filter only relevant clinical themes for the chart
+                const criticalLabels = ['Ansiedad', 'Trauma', 'Depresión', 'Rapport', 'Diagnóstico', 'Ética', 'Intervención'];
+                const criticalData = criticalLabels.map(l => distribution[l] || 0);
+
+                // Horizontal Bar Chart
+                new Chart(document.getElementById('themesChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: criticalLabels,
+                        datasets: [{
+                            label: 'Menciones',
+                            data: criticalData,
+                            backgroundColor: [
+                                '#F87171', '#EF4444', '#B91C1C', // Red shades for critical
+                                '#60A5FA', '#3B82F6', '#2563EB', // Blue shades for clinical
+                                '#10B981' // Green for intervention
+                            ],
+                            borderRadius: 6,
+                            barThickness: 30
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: { beginAtZero: true }
+                        }
+                    }
+                });
+
+                // Context Grid (Detailed Relationships)
+                const contextGrid = document.getElementById('context-grid');
+                contextGrid.innerHTML = ''; // Clear previous content
+                contextGrid.className = 'findings-list'; // Change class for list view
+
+                if (relationships.length === 0) {
+                    contextGrid.innerHTML = '<p class="text-secondary">No se encontraron relaciones críticas significativas.</p>';
+                } else {
+                    // Group by Theme for better organization
+                    const grouped = {};
+                    relationships.forEach(r => {
+                        if (!grouped[r.theme]) grouped[r.theme] = [];
+                        grouped[r.theme].push(r);
+                    });
+
+                    Object.keys(grouped).forEach(theme => {
+                        const themeSection = document.createElement('div');
+                        themeSection.className = 'theme-section';
+
+                        const header = document.createElement('h4');
+                        header.innerHTML = `<span class="dot red"></span> ${theme} <span class="count-badge">${grouped[theme].length}</span>`;
+                        themeSection.appendChild(header);
+
+                        const table = document.createElement('table');
+                        table.className = 'findings-table';
+                        table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Participante</th>
+                                <th>Pregunta</th>
+                                <th>Contexto / Hallazgo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${grouped[theme].map(r => `
+                                <tr>
+                                    <td><span class="student-badge">${r.studentId}</span></td>
+                                    <td title="${r.questionText}">${r.questionCode}</td>
+                                    <td>"${r.context}"</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    `;
+                        themeSection.appendChild(table);
+                        contextGrid.appendChild(themeSection);
+                    });
+                }
+            });
+        </script>
+        <style>
+            .findings-list {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .theme-section {
+                background: var(--bg-color);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 1.5rem;
+            }
+
+            .theme-section h4 {
+                margin-top: 0;
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 1.1rem;
+                color: var(--text-primary);
+            }
+
+            .findings-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.9rem;
+            }
+
+            .findings-table th {
+                text-align: left;
+                padding: 0.8rem;
+                background: #f8fafc;
+                color: var(--text-secondary);
+                font-weight: 600;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .findings-table td {
+                padding: 0.8rem;
+                border-bottom: 1px solid #eee;
+                color: var(--text-primary);
+                vertical-align: top;
+            }
+
+            .findings-table tr:last-child td {
+                border-bottom: none;
+            }
+
+            .student-badge {
+                background: #e0e7ff;
+                color: #4338ca;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-weight: 500;
+                font-size: 0.8rem;
+            }
+
+            .count-badge {
+                background: #fee2e2;
+                color: #b91c1c;
+                padding: 2px 8px;
+                border-radius: 12px;
+                font-size: 0.8rem;
+            }
+        </style>
+    </body>
+
+    </html>

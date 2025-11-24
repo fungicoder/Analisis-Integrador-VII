@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación - Integrador VII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #6366f1;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #06b6d4, #6366f1);
+            top: 50%;
+            right: 10%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        /* Cards Grid */
+        .cards-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .presentation-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .presentation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .presentation-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .presentation-card:hover {
+            transform: translateY(-10px);
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .presentation-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-icon svg {
+            width: 35px;
+            height: 35px;
+            color: white;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(99, 102, 241, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: gap 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 0.75rem;
+        }
+
+        .card-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Dashboard Button */
+        .dashboard-section {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .dashboard-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .dashboard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        .dashboard-button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .presentation-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .presentation-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .presentation-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .presentation-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .presentation-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="presentacion.html">Inicio</a></li>
+                <li><a href="introduccion.html">Introducción</a></li>
+                <li><a href="objetivos.html">Objetivos</a></li>
+                <li><a href="metodologia.html">Metodología</a></li>
+                <li><a href="analisis.html">Análisis</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Sistematización de Experiencias</h1>
+            <p class="hero-subtitle">
+                Estudio de Casos del Componente Integrador VII de la Carrera de Psicología<br>
+                CUR-Estelí, UNAN-Managua
+            </p>
+        </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="cards-container">
+        <!-- Card 1: Introducción -->
+        <div class="presentation-card" onclick="window.location.href='introduccion.html'">
+            <div class="card-number">01</div>
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <h3 class="card-title">Introducción</h3>
+            <p class="card-description">
+                Contexto general del estudio de caso, problemática identificada y marco conceptual de la investigación.
+            </p>
+            <a href="introduccion.html" class="card-link">
+                Explorar
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Card 2: Objetivos -->
+        <div class="presentation-card" onclick="window.location.href='objetivos.html'">
+            <div class="card-number">02</div>
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h3 class="card-title">Objetivos de Investigación</h3>
+            <p class="card-description">
+                Objetivos generales y específicos que guían el proceso de sistematización del estudio de caso.
+            </p>
+            <a href="objetivos.html" class="card-link">
+                Explorar
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Card 3: Metodología -->
+        <div class="presentation-card" onclick="window.location.href='metodologia.html'">
+            <div class="card-number">03</div>
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+            </div>
+            <h3 class="card-title">Marco Metodológico</h3>
+            <p class="card-description">
+                Fundamentación epistemológica y estrategia metodológica para la sistematización de experiencias.
+            </p>
+            <a href="metodologia.html" class="card-link">
+                Explorar
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Card 4: Resultados -->
+        <div class="presentation-card" style="opacity: 0.5; cursor: not-allowed;" onclick="event.stopPropagation()">
+            <div class="card-number">04</div>
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+            </div>
+            <h3 class="card-title">Resultados y Análisis</h3>
+            <p class="card-description">
+                Próximamente: Hallazgos principales y análisis de datos recopilados.
+            </p>
+        </div>
+    </section>
+
+    <!-- Dashboard Access -->
+    <section class="dashboard-section">
+        <a href="index.html" class="dashboard-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+            </svg>
+            Acceder al Dashboard Completo
+        </a>
+    </section>
+</body>
+
+</html>

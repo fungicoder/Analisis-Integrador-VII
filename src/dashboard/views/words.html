@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palabras - Análisis Integrador VII</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.2.2/wordcloud2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="../../landing/presentacion.html">Inicio</a></li>
+                <li><a href="../../landing/introduccion.html">Introducción</a></li>
+                <li><a href="../../landing/objetivos.html">Objetivos</a></li>
+                <li><a href="../../landing/metodologia.html">Metodología</a></li>
+                <li><a href="../../landing/analisis.html">Análisis</a></li>
+                <li><a href="../index.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="logo-text">
+                    <h1>Análisis Integrador VII</h1>
+                    <span>Evaluación de Casos Clínicos</span>
+                </div>
+            </div>
+            <div class="nav-section">
+                <a href="../index.html" class="nav-item"><i class="fa-solid fa-arrow-left"></i> Volver al Dashboard</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Análisis Léxico</h2>
+            </header>
+
+            <div class="content-scroll">
+                <div class="dashboard-grid">
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>Nube de Palabras Clave</h3>
+                        <div id="word-cloud-container" style="height: 300px; width: 100%; position: relative;">
+                            <canvas id="wordCloudCanvas" width="1000" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>Top 50 Palabras Frecuentes</h3>
+                        <canvas id="wordsChart" style="max-height: 600px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/data/data_fe.js"></script>
+    <script src="../../js/data/data_fc.js"></script>
+    <script src="../../js/data/data_fd.js"></script>
+    <script src="../../js/dashboard/analysis.js"></script>
+    <script src="../../js/dashboard/view-init.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initViewData();
+
+            const words = Analysis.getWordCloudData(50); // Top 50
+
+            // Word Cloud
+            const cloudData = words.map(w => [w.text, w.value * 5]); // Scale size
+            WordCloud(document.getElementById('wordCloudCanvas'), {
+                list: cloudData,
+                gridSize: 8,
+                weightFactor: function (size) {
+                    return Math.pow(size, 0.9) * 1.5; // Custom scaling
+                },
+                fontFamily: 'Inter, sans-serif',
+                color: function (word, weight) {
+                    return weight > 20 ? '#4F46E5' : weight > 10 ? '#8B5CF6' : '#9CA3AF';
+                },
+                rotateRatio: 0.5,
+                backgroundColor: 'transparent'
+            });
+
+            // Bar Chart
+            new Chart(document.getElementById('wordsChart'), {
+                type: 'bar',
+                data: {
+                    labels: words.map(w => w.text),
+                    datasets: [{
+                        label: 'Frecuencia',
+                        data: words.map(w => w.value),
+                        backgroundColor: '#8B5CF6',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            ticks: { autoSkip: false, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

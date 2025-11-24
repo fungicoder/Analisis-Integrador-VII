@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrices de Análisis - Integrador VII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #6366f1;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 80px;
+            padding: 3rem 2rem 6rem 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Header Section */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .page-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        td {
+            padding: 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Special styling for first column */
+        td:first-child,
+        th:first-child {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Merged cells styling */
+        .merged-cell {
+            background: rgba(139, 92, 246, 0.1);
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        /* Navigation Buttons */
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        .nav-button.primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: transparent;
+        }
+
+        .nav-button.primary:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .nav-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th,
+            td {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="presentacion.html">Inicio</a></li>
+                <li><a href="introduccion.html">Introducción</a></li>
+                <li><a href="objetivos.html">Objetivos</a></li>
+                <li><a href="metodologia.html">Metodología</a></li>
+                <li><a href="analisis.html" class="active">Análisis</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="page-number">Capítulo 04</div>
+            <h1 class="page-title">Matrices de Análisis</h1>
+            <p class="page-subtitle">
+                Codificación y categorización de datos para la sistematización de experiencias
+            </p>
+        </header>
+
+        <!-- Tabla 1: Ejes o Pilares Principales -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                    </svg>
+                </div>
+                Ejes o Pilares Principales
+            </h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ejes o Pilares principales</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Proceso Clínico con el evaluado</td>
+                            <td>Esta dimensión se enfoca en la calidad de la interacción, la precisión diagnóstica y el
+                                impacto del proceso</td>
+                        </tr>
+                        <tr>
+                            <td>Praxis Docente-Estudiantil del equipo de evaluadores</td>
+                            <td>Aborda la ejecución de los psicólogos evaluadores (estudiantes) y el rol del
+                                acompañamiento docente/supervisión</td>
+                        </tr>
+                        <tr>
+                            <td>Generación de Conocimiento (Aprendizajes/Acción Transformadora)</td>
+                            <td>Esta dimensión cumple con los objetivos de la sistematización al buscar las lecciones
+                                aprendidas, las limitaciones y las propuestas para el futuro</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tabla 2: Fuentes de Información -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                Fuentes de Información / Población
+            </h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Estudiantes</th>
+                            <th>Docentes</th>
+                            <th>Autores de la Sistematización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Add data rows here if applicable -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tabla 3: Matriz de Categorización -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                Matriz de Categorización por Dimensiones
+            </h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dimensión</th>
+                            <th>Categoría Base</th>
+                            <th>Subcategoría</th>
+                            <th>Cód. Estudiantes</th>
+                            <th>Cód. Docentes</th>
+                            <th>Cód. Autores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dimensión 1 -->
+                        <tr>
+                            <td rowspan="7" class="merged-cell">1. Práctica Clínica con el Evaluado</td>
+                            <td rowspan="2">1.1. Abordaje de la Vivencia Subjetiva</td>
+                            <td>1.1.1. Adaptación al Contexto del Evaluado</td>
+                            <td>FEP7, FEP31</td>
+                            <td>FDP1</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>1.1.2. Establecimiento del Rapport y Alianza</td>
+                            <td>FEP4, FEP5, FEP6</td>
+                            <td>FDP2</td>
+                            <td>FCP2</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">1.2. Vivencia Diferencial</td>
+                            <td>1.2.1. Impacto del Contexto en la Evaluación</td>
+                            <td>FEP27</td>
+                            <td>FDP1</td>
+                            <td>FCP4</td>
+                        </tr>
+                        <tr>
+                            <td>1.2.2. Valoración de la Herramienta Diagnóstica</td>
+                            <td>FEP25, FEP26</td>
+                            <td>FDP4, FDP5</td>
+                            <td>FCP10</td>
+                        </tr>
+                        <tr>
+                            <td>1.2.3. Desafíos y Habilidades de Interpretación</td>
+                            <td>FEP10, FEP11, FEP12</td>
+                            <td>FDP6</td>
+                            <td>FCP3</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">1.3. Proceso y Cierre de la Evaluación</td>
+                            <td>1.3.1. Claridad de la Línea Base</td>
+                            <td>FEP13</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>1.3.2. Sesión de cierre</td>
+                            <td>FEP15, FEP16, FEP17</td>
+                            <td>FDP7</td>
+                            <td>-</td>
+                        </tr>
+
+                        <!-- Dimensión 2 -->
+                        <tr>
+                            <td rowspan="6" class="merged-cell">2. Praxis Clínica y Metodológica (Estudiantil y Docente)
+                            </td>
+                            <td rowspan="2">2.1. Planificación y Ejecución de la Evaluación</td>
+                            <td>2.1.1. Pertinencia del Instrumento</td>
+                            <td>FEP2, FEP3</td>
+                            <td>FDP4</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>2.1.2. Logística y Procedimiento</td>
+                            <td>FEP27</td>
+                            <td>FDP8</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">2.2. Co-participación y Roles de Evaluadores</td>
+                            <td>2.2.1. Modalidad de Participación (Individual vs. Conjunta)</td>
+                            <td>FEP19, FEP20</td>
+                            <td>FDP9, FDP11</td>
+                            <td>FCP1, FCP12</td>
+                        </tr>
+                        <tr>
+                            <td>2.2.2. Distribución de Tareas y Sinergia</td>
+                            <td>FEP21</td>
+                            <td>FDP10</td>
+                            <td>FCP5</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">2.3. Impacto de la Tutoría Docente (Supervisión)</td>
+                            <td>2.3.1. Calidad del Acompañamiento</td>
+                            <td>FEP28, FEP30</td>
+                            <td>FDP12, FDP14</td>
+                            <td>FCP6</td>
+                        </tr>
+                        <tr>
+                            <td>2.3.2. Rol del Docente en la Interpretación</td>
+                            <td>FEP29</td>
+                            <td>FDP12</td>
+                            <td>FCP7</td>
+                        </tr>
+
+                        <!-- Dimensión 3 -->
+                        <tr>
+                            <td rowspan="6" class="merged-cell">3. Aprendizaje y Acción Transformadora</td>
+                            <td rowspan="2">3.1. Aprendizaje Crítico y Logros del Integrador VII</td>
+                            <td>3.1.1. Integración de Saberes Curriculares</td>
+                            <td>FEP32</td>
+                            <td>FDP15, FDP20, FDP21</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>3.1.2. Limitaciones de la Praxis Estudiantil</td>
+                            <td>FEP33</td>
+                            <td>FDP16</td>
+                            <td>FCP9</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">3.2. Validez del Proceso y Su Impacto Formativo</td>
+                            <td>3.2.1. Impacto en la Competencia Clínica</td>
+                            <td>FEP34</td>
+                            <td>FDP17</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>3.2.2. Utilidad de la práctica del Caso de estudio para la Formación</td>
+                            <td>FEP35</td>
+                            <td>FDP13</td>
+                            <td>FCP11</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">3.3. Acción Transformadora (Propuestas de Optimización)</td>
+                            <td>3.3.1. Optimización Metodológica y Clínica</td>
+                            <td>FEP36, FEP38, FEP39</td>
+                            <td>FDP18</td>
+                            <td>FCP8, FCP13</td>
+                        </tr>
+                        <tr>
+                            <td>3.3.2. Optimización del Proceso de Tutoría</td>
+                            <td>FEP37</td>
+                            <td>FDP19, FDP22</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="page-navigation">
+            <a href="metodologia.html" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Anterior: Metodología
+            </a>
+            <a href="index.html" class="nav-button primary">
+                Ir al Dashboard
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+                </svg>
+            </a>
+        </nav>
+    </div>
+</body>
+
+</html>

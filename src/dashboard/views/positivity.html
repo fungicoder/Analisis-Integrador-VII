@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positividad - Análisis Integrador VII</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="../../landing/presentacion.html">Inicio</a></li>
+                <li><a href="../../landing/introduccion.html">Introducción</a></li>
+                <li><a href="../../landing/objetivos.html">Objetivos</a></li>
+                <li><a href="../../landing/metodologia.html">Metodología</a></li>
+                <li><a href="../../landing/analisis.html">Análisis</a></li>
+                <li><a href="../index.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="logo-text">
+                    <h1>Análisis Integrador VII</h1>
+                    <span>Evaluación de Casos Clínicos</span>
+                </div>
+            </div>
+            <div class="nav-section">
+                <a href="../index.html" class="nav-item"><i class="fa-solid fa-arrow-left"></i> Volver al Dashboard</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Índice de Positividad</h2>
+            </header>
+
+            <div class="content-scroll">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Distribución de Sentimientos</h3>
+                        <canvas id="sentimentPieChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Tendencia por Pregunta</h3>
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/data/data_fe.js"></script>
+    <script src="../../js/data/data_fc.js"></script>
+    <script src="../../js/data/data_fd.js"></script>
+    <script src="../../js/dashboard/analysis.js"></script>
+    <script src="../../js/dashboard/view-init.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initViewData();
+
+            const stats = Analysis.getGlobalStats();
+            const results = Analysis.results;
+            const counts = stats.sentimentCounts;
+            const percents = stats.sentimentPercents;
+
+            // Pie Chart
+            new Chart(document.getElementById('sentimentPieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: [`Positivo (${percents.pos}%)`, `Neutral (${percents.neu}%)`, `Negativo (${percents.neg}%)`],
+                    datasets: [{
+                        data: [counts.pos, counts.neu, counts.neg],
+                        backgroundColor: ['#10B981', '#94A3B8', '#EF4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Trend Chart
+            const trend = Analysis.getSentimentTrend();
+            new Chart(document.getElementById('trendChart'), {
+                type: 'bar',
+                data: {
+                    labels: trend.map(t => t.code),
+                    datasets: [
+                        {
+                            label: '% Positivo',
+                            data: trend.map(t => t.posPct),
+                            backgroundColor: '#10B981',
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: '% Negativo',
+                            data: trend.map(t => t.negPct),
+                            backgroundColor: '#EF4444',
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: '% Neutral',
+                            data: trend.map(t => 100 - t.posPct - t.negPct),
+                            backgroundColor: '#E2E8F0',
+                            stack: 'Stack 0'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, max: 100 }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

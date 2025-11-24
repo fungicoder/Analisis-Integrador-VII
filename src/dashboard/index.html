@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Integrador VII - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="../js/dashboard/analysis.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="../landing/presentacion.html">Inicio</a></li>
+                <li><a href="../landing/introduccion.html">Introducción</a></li>
+                <li><a href="../landing/objetivos.html">Objetivos</a></li>
+                <li><a href="../landing/metodologia.html">Metodología</a></li>
+                <li><a href="../landing/analisis.html">Análisis</a></li>
+                <li><a href="index.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="logo-text">
+                    <h1>Análisis Integrador VII</h1>
+                    <span>Evaluación de Casos Clínicos</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>DATASET</h3>
+                <div class="dataset-selector-container">
+                    <select id="dataset-selector" class="dataset-select">
+                        <option value="FE">Estudiantes (FE)</option>
+                        <option value="FC">Co-Evaluadores (FC)</option>
+                        <option value="FD">Docentes (FD)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>VISTA PRINCIPAL</h3>
+                <a href="#" class="nav-item active" id="nav-dashboard">
+                    <i class="fa-solid fa-border-all"></i> Dashboard
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>ANÁLISIS CONSOLIDADO</h3>
+                <a href="views/insights.html" class="nav-item">
+                    <i class="fa-solid fa-lightbulb"></i> Insights Consolidados
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>EXPLORAR PREGUNTAS</h3>
+                <div class="question-list" id="question-list">
+                    <!-- Questions will be populated here -->
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Buscar en todo el estudio (ej. MMPI, Ansiedad)..."
+                        id="global-search">
+                </div>
+                <div class="status-badge">
+                    <span class="dot"></span> Datos Cargados
+                </div>
+            </header>
+
+            <div class="content-scroll">
+                <section class="hero-section">
+                    <h2>Resumen Ejecutivo</h2>
+                    <p>Haz clic en las tarjetas para ver el análisis detallado.</p>
+
+                    <div class="cards-grid">
+                        <a href="views/participation.html" class="card-link">
+                            <div class="card hover-card">
+                                <div class="card-icon blue"><i class="fa-solid fa-users"></i></div>
+                                <div class="card-value" id="total-participants">--</div>
+                                <div class="card-label">PARTICIPACIÓN TOTAL</div>
+                            </div>
+                        </a>
+                        <a href="views/positivity.html" class="card-link">
+                            <div class="card hover-card">
+                                <div class="card-icon green"><i class="fa-regular fa-face-smile"></i></div>
+                                <div class="card-value" id="positivity-index">--%</div>
+                                <div class="card-label">ÍNDICE POSITIVIDAD</div>
+                            </div>
+                        </a>
+                        <a href="views/words.html" class="card-link">
+                            <div class="card hover-card">
+                                <div class="card-icon purple"><i class="fa-solid fa-quote-right"></i></div>
+                                <div class="card-value" id="words-analyzed">--</div>
+                                <div class="card-label">PALABRAS ANALIZADAS</div>
+                            </div>
+                        </a>
+                        <a href="views/critical.html" class="card-link">
+                            <div class="card hover-card">
+                                <div class="card-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div class="card-value" id="critical-themes">--</div>
+                                <div class="card-label">TEMAS CRÍTICOS</div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <div class="dashboard-grid">
+                    <section class="matrix-section">
+                        <div class="section-header">
+                            <h3><i class="fa-solid fa-table-cells"></i> Matriz de Sentimientos</h3>
+                            <div class="legend">
+                                <span class="legend-item"><span class="dot pos"></span> POS</span>
+                                <span class="legend-item"><span class="dot neu"></span> NEU</span>
+                                <span class="legend-item"><span class="dot neg"></span> NEG</span>
+                            </div>
+                        </div>
+                        <div class="matrix-wrapper">
+                            <div class="matrix-header-row" id="matrix-header">
+                                <!-- S1, S2... headers -->
+                            </div>
+                            <div class="matrix-body" id="matrix-body">
+                                <!-- Matrix rows -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="distribution-section">
+                        <div class="section-header">
+                            <h3>Distribución Global</h3>
+                        </div>
+                        <div class="chart-container">
+                            <!-- Simple CSS bar chart or similar -->
+                            <div class="bar-chart" id="sentiment-chart">
+                                <!-- Bars -->
+                            </div>
+                            <div class="stats-list" id="top-keywords">
+                                <h4>Palabras Clave</h4>
+                                <!-- Keywords -->
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for details -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="modal-title">Detalle</h3>
+                <button class="close-modal" id="close-modal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/data/data_fe.js"></script>
+    <script src="../js/data/data_fc.js"></script>
+    <script src="../js/data/data_fd.js"></script>
+    <script src="../js/data/data_insights.js"></script>
+    <script src="../js/dashboard/insights-loader.js"></script>
+    <script src="../js/dashboard/app.js"></script>
+</body>
+
+</html>

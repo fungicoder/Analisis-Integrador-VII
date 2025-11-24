@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marco Metodológico - Integrador VII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #6366f1;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 80px;
+            padding: 3rem 2rem 6rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Header Section */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .page-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .subsection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a5b4fc;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid #6366f1;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box.purple {
+            background: rgba(139, 92, 246, 0.1);
+            border-left-color: #8b5cf6;
+        }
+
+        .highlight-box.green {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: #10b981;
+        }
+
+        .highlight-box.orange {
+            background: rgba(251, 146, 60, 0.1);
+            border-left-color: #fb923c;
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            list-style: none;
+            counter-reset: item;
+            margin-top: 1.5rem;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .list-title {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .list-content {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            margin-left: 1rem;
+            margin-top: 1rem;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .bullet-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #8b5cf6;
+            font-size: 1.2rem;
+        }
+
+        /* Eje Cards */
+        .eje-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .eje-card {
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .eje-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .eje-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .eje-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .eje-description {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        /* Navigation Buttons */
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        .nav-button.primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+        }
+
+        .nav-button.primary:hover {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .eje-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="presentacion.html">Inicio</a></li>
+                <li><a href="introduccion.html">Introducción</a></li>
+                <li><a href="objetivos.html">Objetivos</a></li>
+                <li><a href="metodologia.html" class="active">Metodología</a></li>
+                <li><a href="analisis.html">Análisis</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="page-number">Capítulo 03</div>
+            <h1 class="page-title">Marco Metodológico</h1>
+            <p class="page-subtitle">
+                Fundamentación epistemológica y estrategia metodológica para la sistematización de experiencias del
+                estudio de caso
+            </p>
+        </header>
+
+        <!-- Introducción -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                Marco Teórico
+            </h2>
+
+            <p class="content-text">
+                El marco teórico del Trabajo Integrador VIII e Investigación Cualitativa para Psicología se enfoca en
+                la <strong>Sistematización de Experiencias</strong> como estrategia metodológica para generar
+                conocimiento crítico y reflexivo a partir de la práctica vivida, específicamente del Estudio de Caso
+                realizado en el Integrador VII.
+            </p>
+
+            <div class="highlight-box green">
+                <p class="content-text" style="margin-bottom: 0;">
+                    Este marco teórico se articula en torno a la necesidad de transformar la experiencia empírica en un
+                    saber estructurado que promueva la mejora continua del proceso formativo.
+                </p>
+            </div>
+        </section>
+
+        <!-- I. Fundamentación Epistemológica -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                I. Fundamentación Epistemológica: Paradigma Cualitativo
+            </h2>
+
+            <p class="content-text">
+                El enfoque filosófico principal de la investigación cualitativa en el Integrador VIII es el
+                <strong>Paradigma Interpretativo</strong>.
+            </p>
+
+            <ul class="numbered-list">
+                <li>
+                    <div class="list-title">Naturaleza de la Realidad</div>
+                    <div class="list-content">
+                        El paradigma interpretativo asume una realidad múltiple y dinámica que está en permanente
+                        construcción. La realidad y los hallazgos se conciben como una creación conjunta entre el
+                        investigador y el sujeto, lo cual es crucial en la investigación cualitativa.
+                    </div>
+                </li>
+                <li>
+                    <div class="list-title">Objetivo Epistemológico</div>
+                    <div class="list-content">
+                        La investigación se centra en interpretar el significado y las experiencias del sujeto, y se
+                        ubica dentro de una corriente que es fundamentalmente dialéctica, interpretativa, crítica e
+                        histórica.
+                    </div>
+                </li>
+                <li>
+                    <div class="list-title">Carácter Retrospectivo</div>
+                    <div class="list-content">
+                        Dado que el trabajo consiste en analizar la experiencia que ya pasó (Integrador VII), el
+                        estudio se define como retrospectivo, interpretando el significado de la vivencia de los
+                        estudiantes y docentes.
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- II. Eje Metodológico Principal -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
+                II. Eje Metodológico Principal: Sistematización de Experiencias
+            </h2>
+
+            <p class="content-text">
+                La <strong>Sistematización de Experiencias</strong> se selecciona como la aproximación metodológica
+                idónea para cumplir el objetivo de identificar lecciones aprendidas y generar conocimiento.
+            </p>
+
+            <h3 class="subsection-title">1. Concepto de Sistematización</h3>
+
+            <div class="highlight-box">
+                <p class="content-text" style="margin-bottom: 0;">
+                    La sistematización es un ejercicio riguroso de ordenamiento y reconstrucción crítica de la
+                    experiencia vivida. Va más allá de ser una recopilación de datos anecdóticos, una narración
+                    cronológica o un informe síntesis.
+                </p>
+            </div>
+
+            <ul class="bullet-list">
+                <li>Su propósito es la apropiación reflexiva de los procesos para transformarlos en aprendizajes
+                    teóricos y prácticos.</li>
+                <li>Jara Holliday define la sistematización como la interpretación crítica de una o varias experiencias
+                    que, a partir de su ordenamiento y reconstrucción, descubre o explicita la lógica del proceso
+                    vivido, los factores que intervinieron y por qué lo hicieron de ese modo.</li>
+                <li>Busca convertir la práctica empírica en insumos teóricos transferibles.</li>
+            </ul>
+
+            <h3 class="subsection-title">2. Propósito Formativo y Ético</h3>
+
+            <div class="highlight-box purple">
+                <p class="content-text" style="margin-bottom: 1rem;">
+                    La sistematización actúa como un puente entre la teoría psicológica de la educación formal y la
+                    realidad operativa de los aspirantes a psicólogos durante la práctica clínica.
+                </p>
+                <p class="content-text" style="margin-bottom: 0;">
+                    Fortalece las competencias investigativas, analíticas y éticas del estudiante. Este proceso permite
+                    a los estudiantes desarrollar un pensamiento crítico indispensable para la práctica clínica ética.
+                </p>
+            </div>
+        </section>
+
+        <!-- III. Unidad de Análisis -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                III. Unidad de Análisis: Estudio de Caso
+            </h2>
+
+            <p class="content-text">
+                La sistematización se realiza con un enfoque de <strong>Estudio de Casos</strong>, utilizando como
+                objeto de análisis la experiencia del Integrador VII.
+            </p>
+
+            <h3 class="subsection-title">1. Definición del Estudio de Caso</h3>
+
+            <ul class="bullet-list">
+                <li>El estudio de caso es un procedimiento metodológico que permite estudiar a profundidad y en detalle
+                    una unidad de análisis (el caso) dentro de un universo poblacional.</li>
+                <li>Se realiza sobre una realidad singular, única e irrepetible.</li>
+                <li>Según Rodríguez, Gil y García (1996), un objetivo del estudio de caso puede ser hacer una crónica
+                    (registro de los hechos), representar o describir situaciones, o comprobar o contrastar los
+                    efectos.</li>
+                <li>Lo que caracteriza al estudio de caso es el descubrimiento de nuevas relaciones y conceptos, más
+                    que la verificación de hipótesis, basándose en el razonamiento inductivo.</li>
+            </ul>
+
+            <h3 class="subsection-title">2. Modalidades del Caso (Stake)</h3>
+
+            <p class="content-text">
+                Para el caso del Integrador VII, la experiencia se analiza a través de dos modalidades:
+            </p>
+
+            <div class="highlight-box">
+                <p class="list-title">Estudio de Caso Intrínseco</p>
+                <p class="content-text" style="margin-bottom: 0;">
+                    El interés primordial es el caso en sí mismo (ej., comprender al estudiante J.E.C., con su historia
+                    particular, perfil neurocognitivo y diagnóstico previo de Síndrome de Asperger).
+                </p>
+            </div>
+
+            <div class="highlight-box orange">
+                <p class="list-title">Estudio de Caso Instrumental</p>
+                <p class="content-text" style="margin-bottom: 0;">
+                    El caso se usa como un instrumento para comprender un problema más amplio (ej., examinar la
+                    eficacia de los modelos de supervisión o la formación de competencias clínicas en estudiantes de
+                    psicología).
+                </p>
+            </div>
+        </section>
+
+        <!-- IV. Ejes Fundamentales -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                IV. Ejes Fundamentales de la Interpretación Crítica
+            </h2>
+
+            <p class="content-text">
+                El análisis crítico en la sistematización se estructura en torno a tres ejes fundamentales que guían la
+                generación de conocimiento:
+            </p>
+
+            <div class="eje-grid">
+                <div class="eje-card">
+                    <div class="eje-number">EJE 1</div>
+                    <h3 class="eje-title">El Proceso Clínico con el Evaluado</h3>
+                    <p class="eje-description">
+                        Se enfoca en la calidad de la interacción, la precisión diagnóstica y el impacto del proceso,
+                        desde la recepción del evaluado hasta la selección y aplicación de instrumentos validados.
+                    </p>
+                </div>
+
+                <div class="eje-card">
+                    <div class="eje-number">EJE 2</div>
+                    <h3 class="eje-title">La Praxis Docente-Estudiantil</h3>
+                    <p class="eje-description">
+                        Examina la ejecución de los psicólogos evaluadores (estudiantes) y el rol del acompañamiento
+                        docente/supervisión. Se abordan las dinámicas de supervisión y los modelos de aprendizaje
+                        experiencial.
+                    </p>
+                </div>
+
+                <div class="eje-card">
+                    <div class="eje-number">EJE 3</div>
+                    <h3 class="eje-title">La Generación de Conocimiento</h3>
+                    <p class="eje-description">
+                        Busca las lecciones aprendidas y las propuestas para optimizar futuros procesos formativos.
+                        Este eje identifica las limitaciones estructurales e institucionales de la práctica con el fin
+                        de lograr una mejora para futuros procesos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="page-navigation">
+            <a href="objetivos.html" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Anterior: Objetivos
+            </a>
+            <a href="analisis.html" class="nav-button primary">
+                Siguiente: Análisis
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </nav>
+    </div>
+</body>
+
+</html>

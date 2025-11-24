@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción - Integrador VII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #6366f1;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 80px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Header Section */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .page-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .subsection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a5b4fc;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid #6366f1;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box .content-text {
+            margin-bottom: 0;
+        }
+
+        /* Navigation Buttons */
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        .nav-button.primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+        }
+
+        .nav-button.primary:hover {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Integrador VII</div>
+            <ul class="nav-links">
+                <li><a href="presentacion.html">Inicio</a></li>
+                <li><a href="introduccion.html" class="active">Introducción</a></li>
+                <li><a href="objetivos.html">Objetivos</a></li>
+                <li><a href="metodologia.html">Metodología</a></li>
+                <li><a href="analisis.html">Análisis</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="page-number">Capítulo 01</div>
+            <h1 class="page-title">Introducción</h1>
+            <p class="page-subtitle">
+                Marco contextual y problemática del estudio de caso del Integrador VII
+            </p>
+        </header>
+
+        <!-- Tema Section -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                    </svg>
+                </div>
+                Tema
+            </h2>
+            <p class="content-text">
+                Sistematización de la co-presencia de psicólogos evaluadores durante la administración de baterías de
+                pruebas psicométricas en el estudio de caso del Integrador VII.
+            </p>
+        </section>
+
+        <!-- Problemática Section -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                Problemática
+            </h2>
+            <p class="content-text">
+                La co-presencia (atención asistida) de múltiples profesionales o asistentes en la aplicación de
+                pruebas psicométricas es una práctica común en la formación clínica, pero plantea interrogantes sobre
+                su impacto en el rapport y la validez del proceso.
+            </p>
+            <p class="content-text">
+                Por ello, es necesario explorar cualitativamente las percepciones de los evaluadores, estudiantes y
+                maestros respecto a los desafíos, las estrategias de manejo y los significados que atribuyen a esta
+                modalidad de atención.
+            </p>
+        </section>
+
+        <!-- Contexto Section -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                </div>
+                Contexto
+            </h2>
+
+            <p class="content-text">
+                El estudio de caso aborda la situación de un adulto joven de 22 años, originario de la ciudad de
+                Granada, con una historia de múltiples traslados interurbanos. Fue diagnosticado en la infancia con el
+                síndrome de Asperger. El motivo de la consulta fue para dar continuidad a su proceso de acompañamiento
+                psico-socio-emocional y adaptación a un nuevo contexto educativo.
+            </p>
+
+            <div class="highlight-box">
+                <p class="content-text">
+                    La atención se realizó en la clínica psico-socio-comunitaria del centro universitario regional de
+                    Estelí. El joven, identificado por sus iniciales J.E.C., es un estudiante de nuevo ingreso y
+                    comenzó su proceso de consulta al inicio de su primer semestre académico.
+                </p>
+            </div>
+
+            <h3 class="subsection-title">Proceso de Evaluación</h3>
+            <p class="content-text">
+                En calidad de psicólogos evaluadores, los autores intervinieron en el proceso de J.E.C. el 8 de mayo
+                de 2025, mediante la administración de baterías de pruebas psicométricas (Test proyectivo de la figura
+                humana de Machover, "Neuropsi atención y memoria") que respaldaron el proceso de atención
+                psicoterapéutica en su nuevo contexto educativo.
+            </p>
+
+            <h3 class="subsection-title">Objetivos de la Intervención</h3>
+            <p class="content-text">
+                El objetivo fue administrar tests proyectivos y formularios sistematizados para documentar posibles
+                conflictos relacionados con rasgos de personalidad que influyen en la adaptación y desempeño académico
+                del paciente. También, en este caso particular de un paciente con Trastorno del Espectro Autista (TEA),
+                fue principalmente para obtener un perfil detallado de su funcionamiento cognitivo. Y establecer una
+                línea base para intervenciones posteriores.
+            </p>
+
+            <p class="content-text">
+                Así, la intervención respondía consecuentemente con los aprendizajes alcanzados mediante los procesos
+                de evaluación de competencias del componente integrador VII que a su vez coincidía conocimientos
+                obtenidos de todos los componentes curriculares del séptimo semestre de la carrera de psicología en el
+                CUR-Estelí.
+            </p>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="page-navigation">
+            <a href="presentacion.html" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Volver al Inicio
+            </a>
+            <a href="objetivos.html" class="nav-button primary">
+                Siguiente: Objetivos
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </nav>
+    </div>
+</body>
+
+</html>
